@@ -146,21 +146,25 @@ table tr td a {
 <body>
 	<div class="wrapper">
 		<div class="contentArea">
-			<form action="">
-				<p>查询区域</p>
-				<p>
-					<span>商品分类名称: <input type="text" width="200px"></span> <span>上级商品分类:
-						<select style="width: 100px;">
-							<option>请选择</option>
-					</select>
-					</span>
-				</p>
-				<p>
-					<input type="button" value="查询"><input type="reset"
-						value="重置"> <a
-						href="http://localhost:8080/JF190902/UserServlet?userAction=addBefore"
-						target="adminMainContent">新增</a>
-				</p>
+			<form action="${pageContext.request.contextPath}/UserServlet" method="post">
+			    <p><input type="hidden" name="userAction" value="listLike"></p>
+		
+			<p>
+			<span>请输入用户名:&emsp;<input name="userName" value="${param.userName }"></span>
+			<span>请选择角色:&emsp;<select name="roleId">
+			<!-- <option value="0">请选择</option> -->
+						<c:forEach items="${requestScope.roleList }" var="role">
+							<option ${role.roleId==user.roleId?"selected":""}
+								value="${role.roleId }">${role.roleName }</option>
+						</c:forEach>
+					</select></span>
+					<span><a
+					href="http://localhost:8080/JF190902/UserServlet?userAction=addBefore"
+					target="adminMainContent">新增</a></span>
+					</p>
+					
+
+				<p><input type="submit" value="提交"></p>
 			</form>
 			<div class="list">
 				<p>列表区域</p>
@@ -171,17 +175,25 @@ table tr td a {
 						<th>真实姓名</th>
 						<th>性别</th>
 						<th>出生日期</th>
+						<th>所属角色</th>
 						<th>操作</th>
 					</tr>
 					<c:choose>
 						<c:when test="${not empty requestScope.userList }">
 							<c:forEach items="${requestScope.userList }" var="user">
+							
 								<tr>
 									<td>${user.userName }</td>
 									<td>${user.password }</td>
 									<td>${user.realName }</td>
 									<td>${user.sex==1?"男":"女" }</td>
+									
 									<td>${user.birthday }</td>
+									<td><select name="roleId" disabled="false">
+<c:forEach items="${requestScope.roleList }" var="role">
+<option ${role.roleId==user.roleId?"selected":""} value="${role.roleId}">${role.roleName }</option>
+</c:forEach>
+</select></td>
 									<td><a
 										href="http://localhost:8080/JF190902/UserServlet?userAction=updateBefore&userId=${user.userId}">
 											修改 </a> <a
@@ -191,18 +203,18 @@ table tr td a {
 
 									</td>
 								</tr>
-
-
-							</c:forEach>
+                        
+                              </c:forEach>
+						
 						</c:when>
 						<c:otherwise>
 
 							<tr>
-								<td>用户列表查无数据</td>
+								<td  colspan="7">用户列表查无数据</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
-					
+
 
 				</table>
 				<div class="page">

@@ -1,6 +1,7 @@
 package com.cyzy.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +37,7 @@ public class UserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String userAction = request.getParameter("userAction");
-	     if (userAction != null && userAction.equals("addBefore")) {
+		if (userAction != null && userAction.equals("addBefore")) {
 			addBefore(request, response);
 		} else if (userAction != null && userAction.equals("add")) {
 			addUser(request, response);
@@ -50,11 +51,36 @@ public class UserServlet extends HttpServlet {
 			queryUserList(request, response);
 		} else if (userAction != null && userAction.equals("detail")) {
 			userDetail(request, response);
-		}else if (userAction != null && userAction.equals("userId")) {
-			byUserId(request, response);
-		}else if (userAction != null && userAction.equals("getRoleList")) {
-			getRoleList(request, response);
+		} else if (userAction != null && userAction.equals("listLike")) {
+			listLike(request, response);
 		}
+
+//		else if (userAction != null && userAction.equals("userId")) {
+//			byUserId(request, response);
+//		}else if (userAction != null && userAction.equals("getRoleList")) {
+//			getRoleList(request, response);
+//		}
+	}
+
+	private void listLike(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 防止乱码
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		//模糊查询
+		String userName=request.getParameter("userName");
+		int roleId=Integer.parseInt(request.getParameter("roleId"));
+		
+		User user = new User();
+		user.setUserName(userName);
+		user.setRoleId(roleId);
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
+		List<User> userList = userService.queryUsers(user);
+		getRoleList(request, response);
+		request.setAttribute("userList", userList);
+		request.getRequestDispatcher("/user/user_list.jsp").forward(request, response);
+
 	}
 
 	private void userDetail(HttpServletRequest request, HttpServletResponse response)
@@ -75,15 +101,16 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		getRoleList(request, response);	
+		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_add.jsp").forward(request, response);
 	}
-	//获取角色列表
+
+	// 获取角色列表
 	private void getRoleList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Role role=new Role();
-		RoleService roleService=(RoleService)ServiceFactory.getServiceImpl(RoleService.class.getName());
-		List<Role> roleList=roleService.queryRole(role);	
+		Role role = new Role();
+		RoleService roleService = (RoleService) ServiceFactory.getServiceImpl(RoleService.class.getName());
+		List<Role> roleList = roleService.queryRole(role);
 		request.setAttribute("roleList", roleList);
 	}
 
@@ -93,22 +120,24 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-        
-		//增加用户
+
+		// 增加用户
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		String realName = request.getParameter("realName");
-		int sex=Integer.parseInt(request.getParameter("sex"));
+		int sex = Integer.parseInt(request.getParameter("sex"));
 		String birthday = request.getParameter("birthday");
-		int roleId=Integer.parseInt(request.getParameter("roleId"));
-		
-		User user = new User(0,userName,password,realName,sex,birthday,roleId);
-     
-		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
-		int result=userService.addUser(user);
-		if(result>0) {
-			queryUserList(request,response);
-		}
+		int roleId = Integer.parseInt(request.getParameter("roleId"));
+
+		User user = new User(0, userName, password, realName, sex, birthday, roleId);
+
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
+		int result = userService.addUser(user);
+			PrintWriter out =response.getWriter();
+			out.println("<script>");
+			out.println("window.alert('"+(result==0?"失败":"成功")+"');");
+			out.println("</script>");
+			queryUserList(request, response);
 
 	}
 
@@ -119,16 +148,17 @@ public class UserServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		byUserId(request, response);
-		getRoleList(request, response);	
+		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_update.jsp").forward(request, response);
 	}
-	//得到个人用户信息
+
+	// 得到个人用户信息
 	private void byUserId(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
-		User user=userService.getUserById(Integer.parseInt(userId));	    
-		request.setAttribute("user", user);		
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
+		User user = userService.getUserById(Integer.parseInt(userId));
+		request.setAttribute("user", user);
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response)
@@ -136,20 +166,20 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		int userId=Integer.parseInt(request.getParameter("userId"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		String realName = request.getParameter("realName");
-		int sex=Integer.parseInt(request.getParameter("sex"));
+		int sex = Integer.parseInt(request.getParameter("sex"));
 		String birthday = request.getParameter("birthday");
-		int roleId=Integer.parseInt(request.getParameter("roleId"));
+		int roleId = Integer.parseInt(request.getParameter("roleId"));
 
-		User user=new User(userId,userName,password,realName,sex,birthday,roleId);
-	
-		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
-		int result=userService.updateUser(user);
-		System.out.println("result:"+result);
-		if(result>0) {
+		User user = new User(userId, userName, password, realName, sex, birthday, roleId);
+
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
+		int result = userService.updateUser(user);
+		System.out.println("result:" + result);
+		if (result > 0) {
 			queryUserList(request, response);
 		}
 	}
@@ -161,7 +191,7 @@ public class UserServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		String userId = request.getParameter("userId");
-		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		int result = userService.deleteUser(Integer.parseInt(userId));
 		if (result > 0) {
 			queryUserList(request, response);
@@ -174,10 +204,13 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+			
 		User user = new User();
-		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
+		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		List<User> userList = userService.queryUsers(user);
 		request.setAttribute("userList", userList);
+		
+		getRoleList(request,response);
 		request.getRequestDispatcher("/user/user_list.jsp").forward(request, response);
 	}
 
@@ -187,7 +220,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		doGet(request, response);
 	}
 

@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
  
 public class DBUtil {
@@ -45,7 +46,7 @@ public class DBUtil {
 		return conn;
 	}
 	//¹Ø±ÕÊý¾Ý¿â
-	public static void closeConn(Connection conn,PreparedStatement ps,ResultSet rs) {
+	public static void closeConn(Connection conn,Statement st,ResultSet rs) {
 		if(rs!=null) {
 			try {
 				rs.close();
@@ -54,9 +55,9 @@ public class DBUtil {
 				e.printStackTrace();
 			}
 		}
-		if(ps!=null) {
+		if(st!=null) {
 			try {
-				ps.close();
+				st.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,23 +218,25 @@ String sql = "UPDATE T_USER SET USER_NAME=?,PASSWORD=?,REAL_NAME=?,SEX=?,BIRTHDA
 
 	@Override
 	public List<User> queryUsers(User user) {
-		List<User> users = new ArrayList<User>();
-		Connection conn = DBUtil.getConnection();
-		PreparedStatement ps = null;
+		Statement st=null;
 		ResultSet rs = null;
-		String sql = "SELECT USER_ID,USER_NAME,PASSWORD,REAL_NAME,SEX,BIRTHDAY FROM T_USER WHERE 1=1";
+		Connection conn = null;
+		List<User> userList = new ArrayList<User>();
+		String sql = "SELECT A.ROLE_ID, USER_ID, USER_NAME, PASSWORD, REAL_NAME, SEX, BIRTHDAY, B.ROLE_NAME "
+				+ " FROM T_USER A, T_ROLE B WHERE A.ROLE_ID=B.ROLE_ID ";
 		try {
+			conn = DBUtil.getConnection();
+			st= conn.createStatement();
 			// 这是动态拼接查询条件
-			if (user.getRealName() != null && user.getRealName().equals("")) {
-				sql += "AND REAL_NAME LIKE ?";
+			if (user!=null&&user.getUserName() != null && !user.getUserName().equals("")) {
+				sql += "AND USER_NAME LIKE  '%"+user.getUserName()+"%'";
 			}
-			ps = conn.prepareStatement(sql);
 			// 有多个条件+多个条件的判断
-			if (user.getRealName() != null && user.getRealName().equals("")) {
-				ps.setString(1, "%" + user.getRealName() + "%");
+			if (user!=null &&user.getRoleId()!=0) {
+				sql+="AND A.ROLE_ID="+user.getRoleId();
 			}
 
-			rs = ps.executeQuery();
+			rs = st.executeQuery(sql);
 			while (rs.next()) {
 				int userId = rs.getInt("USER_ID");
 				String userName = rs.getString("USER_NAME");
@@ -241,30 +244,29 @@ String sql = "UPDATE T_USER SET USER_NAME=?,PASSWORD=?,REAL_NAME=?,SEX=?,BIRTHDA
 				String realName = rs.getString("REAL_NAME");	
 				int sex = rs.getInt("SEX");
 				String birthDay = rs.getString("BIRTHDAY");
-				User temp = new User();
+				int roleId=rs.getInt("ROLE_ID");
+				User temp = new User(userId,userName,password,realName,sex,birthDay,roleId);
 				temp.setUserId(userId);
 				temp.setUserName(userName);
 				temp.setPassword(password);
 				temp.setRealName(realName);
 				temp.setSex(sex);
 				temp.setBirthday(birthDay);
-				users.add(temp);
+				userList.add(temp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DBUtil.closeConn(conn, ps, rs);
+			DBUtil.closeConn(conn, st, rs);
 		}
-		return users;
+		return userList;
 	}
-
+	
+	
 	@Override
 	public int createUserId() {
 
 		return 0;
 	}
-	
-	
-
 	
 }
