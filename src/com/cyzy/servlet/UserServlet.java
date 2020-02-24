@@ -27,7 +27,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	public UserServlet() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -56,20 +56,13 @@ public class UserServlet extends HttpServlet {
 			listLike(request, response);
 		}
 
-//		else if (userAction != null && userAction.equals("userId")) {
-//			byUserId(request, response);
-//		}else if (userAction != null && userAction.equals("getRoleList")) {
-//			getRoleList(request, response);
-//		}
 	}
 
 	private void listLike(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ·ÀÖ¹ÂÒÂë
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		
+			
 		//µ±Ç°Ò³Âë
 		String currentPageNumStr = request.getParameter("currentPageNum");
 		int currentPageNum=(currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
@@ -96,9 +89,7 @@ public class UserServlet extends HttpServlet {
 	private void userDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ·ÀÖ¹ÂÒÂë
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 
 		byUserId(request, response);
 		getRoleList(request, response);
@@ -108,9 +99,7 @@ public class UserServlet extends HttpServlet {
 	private void addBefore(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ·ÀÂÒÂë
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_add.jsp").forward(request, response);
 	}
@@ -127,9 +116,7 @@ public class UserServlet extends HttpServlet {
 	private void addUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ·ÀÂÒÂë
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 
 		// Ôö¼ÓÓÃ»§
 		String userName = request.getParameter("userName");
@@ -154,9 +141,7 @@ public class UserServlet extends HttpServlet {
 	// Ö´ÐÐÐÞ¸Ä²Ù×÷Ç°
 	private void updateBefore(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 		byUserId(request, response);
 		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_update.jsp").forward(request, response);
@@ -173,9 +158,7 @@ public class UserServlet extends HttpServlet {
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
@@ -196,9 +179,7 @@ public class UserServlet extends HttpServlet {
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 
 		String userId = request.getParameter("userId");
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
@@ -211,9 +192,7 @@ public class UserServlet extends HttpServlet {
 	private void queryUserList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// ·ÀÖ¹ÂÒÂë
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 			
 		User user = new User();
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());

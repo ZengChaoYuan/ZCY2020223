@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 	    User user=userService.login(userName, password);
 	    if(user!=null) {
 			HttpSession session=request.getSession();
-			//session.setMaxInactiveInterval(10);//超时时间以秒为单位
+			session.setMaxInactiveInterval(10);//超时时间以秒为单位
 			session.setAttribute("loginUser", user);
 			//还要查询此用户所拥有的菜单
 			//菜单列表扔到request/session范围

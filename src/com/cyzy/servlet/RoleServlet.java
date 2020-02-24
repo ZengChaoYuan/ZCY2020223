@@ -36,6 +36,8 @@ public class RoleServlet extends HttpServlet {
 		String roleAction = request.getParameter("roleAction");
 		if (roleAction != null && roleAction.equals("add")) {
 			addRole(request, response);
+		} else if (roleAction != null && roleAction.equals("addBefore")) {
+			addBefore(request, response);
 		} else if (roleAction != null && roleAction.equals("delete")) {
 			deleteRole(request, response);
 		} else if (roleAction != null && roleAction.equals("updateBefore")) {
@@ -44,15 +46,29 @@ public class RoleServlet extends HttpServlet {
 			updateRole(request, response);
 		} else if (roleAction != null && roleAction.equals("list")) {
 			queryRoleList(request, response);
-		}else if (roleAction != null && roleAction.equals("detail")) {
+		} else if (roleAction != null && roleAction.equals("detail")) {
 			roleDetail(request, response);
 		}
 	}
 
 	// 增加角色业务
+	private void addBefore(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		//新增角色，去菜单的数据
+		
+		
+	}
+
+	// 增加角色业务
 	private void addRole(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		response.setContentType("text/html");
+		
+		String [] ids=request.getParameterValues("ids");
+		
+		
+		
 	}
 
 	// 删除角色业务
@@ -64,7 +80,7 @@ public class RoleServlet extends HttpServlet {
 	// 修改角色业务
 	private void updateBeforeRole(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+     //1.把所有菜单拉出来，第二。
 	}
 
 	// 修改角色业务
@@ -76,18 +92,16 @@ public class RoleServlet extends HttpServlet {
 	// 查询角色业务
 	private void queryRoleList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
 
 		Role role = new Role();
-		RoleService roleService=(RoleService)ServiceFactory.getServiceImpl(RoleService.class.getName());
-		List<Role> roleList =roleService.queryRole(role);
+		RoleService roleService = (RoleService) ServiceFactory.getServiceImpl(RoleService.class.getName());
+		List<Role> roleList = roleService.queryRole(role);
 		request.setAttribute("roleList", roleList);
 		request.getRequestDispatcher("/role/role_list.jsp").forward(request, response);
 
 	}
-	
+
 	private void roleDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
