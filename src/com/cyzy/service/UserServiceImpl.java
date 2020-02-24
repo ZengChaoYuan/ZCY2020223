@@ -7,14 +7,24 @@ import com.cyzy.bean.User;
 import com.cyzy.dao.UserDao;
 
 import com.cyzy.util.DaoFactory;
-
-
-
-
+import com.cyzy.util.Page;
 
 
 public class UserServiceImpl implements UserService {
 
+	
+	@Override
+	public Page<User> queryUsers(User user, int currentPageNum) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		int totalRecordsNum=userDao.queryCount(user);
+		//获得分页对象,还差一个数据记录(业务数据)
+		Page<User> page=new Page<User>(currentPageNum,totalRecordsNum,5);
+		//查询符合条件指定数据
+		List<User> userList=userDao.queryUsers(user,page.getStartIndex(),page.getEndIndex());
+		page.setRecords(userList);
+		return page;
+	}
+	
 	//登录
 	@Override
 	public User login(String userName, String password) {
@@ -51,6 +61,8 @@ public class UserServiceImpl implements UserService {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.updateUser(user);
 	}
+
+	
 
 	
 

@@ -12,6 +12,90 @@ import com.cyzy.bean.User;
 import com.cyzy.util.DBUtil;
 
 public class UserDaoImpl implements UserDao {
+	
+	
+	//select a1.* from (select t.*,rownum rn from t_user t where rownum <=5 and role_id=2) a1 
+	//where rn >=1;
+	@Override
+	public List<User> queryUsers(User user, int startIndex, int endIndex) {
+		Statement st=null;
+		ResultSet rs = null;
+		Connection conn = null;
+		List<User> userList = new ArrayList<User>();
+		String sql="SELECT ROLE_ID, USER_ID, USER_NAME, PASSWORD, REAL_NAME, SEX, BIRTHDAY, ROLE_NAME, RN FROM ( ";
+		sql+= " SELECT A.ROLE_ID, USER_ID, USER_NAME, PASSWORD, REAL_NAME, SEX, BIRTHDAY, B.ROLE_NAME, ROWNUM RN ";
+		sql+=" FROM T_USER A, T_ROLE B WHERE A.ROLE_ID = B.ROLE_ID AND ROWNUM<= "+endIndex;
+		try {
+			conn = DBUtil.getConnection();
+			st= conn.createStatement();
+			// 这是动态拼接查询条件
+			if (user!=null&&user.getUserName() != null && !user.getUserName().equals("")) {
+				sql += " AND USER_NAME LIKE  '%"+user.getUserName()+"%'";
+			}
+			// 有多个条件+多个条件的判断
+			if (user!=null &&user.getRoleId()!=0) {
+				sql+=" AND A.ROLE_ID= "+user.getRoleId();
+			}
+			sql+=" )A1 WHERE RN > = "+startIndex;
+
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				int userId = rs.getInt("USER_ID");
+				String userName = rs.getString("USER_NAME");
+				String password = rs.getString("PASSWORD");
+				String realName = rs.getString("REAL_NAME");	
+				int sex = rs.getInt("SEX");
+				String birthDay = rs.getString("BIRTHDAY");
+				int roleId=rs.getInt("ROLE_ID");
+				User temp = new User(userId,userName,password,realName,sex,birthDay,roleId);
+				temp.setUserId(userId);
+				temp.setUserName(userName);
+				temp.setPassword(password);
+				temp.setRealName(realName);
+				temp.setSex(sex);
+				temp.setBirthday(birthDay);
+				userList.add(temp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConn(conn, st, rs);
+		}
+		return userList;
+	}
+	
+	@Override
+	public int queryCount(User user) {
+		Statement st=null;
+		ResultSet rs = null;
+		Connection conn = null;
+		String sql="SELECT COUNT(0) FROM T_USER WHERE 1=1 ";
+		int count=0;
+		
+		try {
+			conn=DBUtil.getConnection();
+			st=conn.createStatement();
+			// 这是动态拼接查询条件
+			if (user!=null&&user.getUserName() != null && !user.getUserName().equals("")) {
+				sql += " AND USER_NAME LIKE  '%"+user.getUserName()+"%'";
+			}
+			// 有多个条件+多个条件的判断
+			if (user!=null &&user.getRoleId()!=0) {
+				sql+=" AND ROLE_ID="+user.getRoleId();
+			}
+			rs=st.executeQuery(sql);
+			while(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, st, rs);
+		}
+		
+		return count;
+	}
+	
 
 	@Override
 	public User login(String userName, String password) {
@@ -268,5 +352,8 @@ String sql = "UPDATE T_USER SET USER_NAME=?,PASSWORD=?,REAL_NAME=?,SEX=?,BIRTHDA
 
 		return 0;
 	}
+
+
+	
 	
 }

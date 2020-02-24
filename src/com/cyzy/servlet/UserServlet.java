@@ -13,6 +13,7 @@ import com.cyzy.bean.User;
 
 import com.cyzy.service.RoleService;
 import com.cyzy.service.UserService;
+import com.cyzy.util.Page;
 import com.cyzy.util.ServiceFactory;
 
 /**
@@ -68,20 +69,29 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		
+		//当前页码
+		String currentPageNumStr = request.getParameter("currentPageNum");
+		int currentPageNum=(currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
 		//模糊查询
 		String userName=request.getParameter("userName");
-		int roleId=Integer.parseInt(request.getParameter("roleId"));
+		String roleValue=request.getParameter("roleId");
+		int roleId=Integer.parseInt(roleValue == null ? "0":roleValue);
 		
 		User user = new User();
 		user.setUserName(userName);
 		user.setRoleId(roleId);
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
-		List<User> userList = userService.queryUsers(user);
+		//List<User> userList = userService.queryUsers(user);
+		//request.setAttribute("userList", userList);
+		Page <User> page=userService.queryUsers(user, currentPageNum);
+		request.setAttribute("page", page);
+		//获取角色列表
 		getRoleList(request, response);
-		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/user/user_list.jsp").forward(request, response);
-
 	}
+	
+	
 
 	private void userDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -31,4 +31,9 @@ public interface UserDao {
 	//没用上
 	public int createUserId();
 	
+	//1.查询有多少条符合条件的记录: 总记录数
+	public int queryCount(User user);
+    //2.查询指定页码的数据
+	public List<User> queryUsers(User user,int startIndex,int endIndex);	
+	
 }
