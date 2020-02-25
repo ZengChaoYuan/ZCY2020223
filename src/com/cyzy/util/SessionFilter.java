@@ -47,6 +47,7 @@ public class SessionFilter implements Filter {
 		//indexOfÊÇÎª°üº¬
 		if(servletPath!=null && servletPath.indexOf("/index.jsp")!=-1
 				||servletPath.indexOf("/LoginServlet")!=-1
+				||servletPath.indexOf("/ImageServlet")!=-1
 				||servletPath.indexOf(".css")!=-1
 				||servletPath.indexOf(".js")!=-1
 				||servletPath.indexOf(".jpg")!=-1

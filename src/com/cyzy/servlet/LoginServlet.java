@@ -47,9 +47,20 @@ public class LoginServlet extends HttpServlet {
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+	
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
+        
+		String code=request.getParameter("code");
+		String sessionCode=(String)request.getSession().getAttribute("code");
+		if(!code.equals(sessionCode)) {
+			PrintWriter out =response.getWriter();
+			out.println("<script>");
+			out.println("window.alert('请输入正确的验证码');");
+			out.println("window.location.href='"+request.getContextPath()+"/index.jsp';");
+			out.println("</script>");
+			return;
+		}
+		
 		//查询用户是不是存在
 		String userName=request.getParameter("userName");
 		String password=request.getParameter("password");
@@ -57,7 +68,7 @@ public class LoginServlet extends HttpServlet {
 	    User user=userService.login(userName, password);
 	    if(user!=null) {
 			HttpSession session=request.getSession();
-			session.setMaxInactiveInterval(10);//超时时间以秒为单位
+			//session.setMaxInactiveInterval(10);//超时时间以秒为单位
 			session.setAttribute("loginUser", user);
 			//还要查询此用户所拥有的菜单
 			//菜单列表扔到request/session范围

@@ -22,7 +22,7 @@ a{
 
 .content {
     width: 600px;
-    height: 380px;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: rgba(204, 204, 204, 0.8);
@@ -46,6 +46,7 @@ form>ul {
     justify-content: center;
     flex-wrap: wrap;
     border-top: 2px solid #999;
+
 }
 
 form>ul>li {
@@ -57,12 +58,15 @@ form>ul>li {
 }
 
 form>ul>li:nth-child(odd) {
-    width: 30%;
+    width: 20%;
     text-align: right;
+
 }
 
 form>ul>li:nth-child(even) {
-    width: 50%;
+    width: 70%;
+    flex-grow: 1;
+
 }
 
 #userName,
