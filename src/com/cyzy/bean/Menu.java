@@ -5,17 +5,27 @@ public class Menu {
 	private String menuName;
 	private int menuPId;
 	private String menuUrl;
-
-	public Menu(int menuId, String menuName, int menuPId, String menuUrl) {
+	private boolean checked=false;	
+	
+    public Menu(int menuId, String menuName, int menuPId, String menuUrl, boolean checked) {
 		super();
 		this.menuId = menuId;
 		this.menuName = menuName;
 		this.menuPId = menuPId;
 		this.menuUrl = menuUrl;
+		this.checked = checked;
 	}
 
 	public Menu() {
 		super();
+	}
+	
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 	public int getMenuId() {

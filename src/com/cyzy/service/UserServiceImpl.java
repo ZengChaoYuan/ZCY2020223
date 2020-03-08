@@ -12,15 +12,20 @@ import com.cyzy.util.Page;
 
 public class UserServiceImpl implements UserService {
 
+	@Override
+	public User checkUserName(String userName) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.checkUserName(userName);
+	}
 	
 	@Override
-	public Page<User> queryUsers(User user, int currentPageNum) {
+	public Page<User> queryUserList(User user, int currentPageNum) {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		int totalRecordsNum=userDao.queryCount(user);
 		//获得分页对象,还差一个数据记录(业务数据)
 		Page<User> page=new Page<User>(currentPageNum,totalRecordsNum,5);
 		//查询符合条件指定数据
-		List<User> userList=userDao.queryUsers(user,page.getStartIndex(),page.getEndIndex());
+		List<User> userList=userDao.queryUserList(user,page.getStartIndex(),page.getEndIndex());
 		page.setRecords(userList);
 		return page;
 	}
@@ -33,13 +38,39 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User getUserById(int userId) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.getUserById(userId);
+	}
+	
+	@Override
+	public int updateUseStatus(User user) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.updateUseStatus(user);
+	}
+
+	@Override
+	public int updateDeleteStatus(User user) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.updateDeleteStatus(user);
+	}
+
+	@Override
+	public int resetPassword(User user) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.resetPassword(user);
+	}
+	
+	
+	
+	@Override
 	public List<User> queryUsers(User user) {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.queryUsers(user);
 	}
 
 	@Override
-	public int addUser(User user) {
+	public int addUser(User user) throws Exception {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.addUser(user);
 	}
@@ -50,20 +81,12 @@ public class UserServiceImpl implements UserService {
 		return userDao.deleteUser(userId);
 	}
 
-	@Override
-	public User getUserById(int userId) {
-		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
-		return userDao.getUserById(userId);
-	}
+	
 
 	@Override
 	public int updateUser(User user) {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.updateUser(user);
 	}
-
-	
-
-	
 
 }

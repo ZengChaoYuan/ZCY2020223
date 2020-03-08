@@ -4,11 +4,34 @@ import java.util.List;
 
 import com.cyzy.bean.User;
 
-public interface UserDao {
+public interface UserDao {//后台用户表
+    
+	//登录
+	public User login(String userName,String password);
+	
+	//检测用户名是否重复
+	public User checkUserName(String userName);
+	
+	//1.查询有多少条符合条件的记录: 总记录数
+	public int queryCount(User user);
+    //2.分页查询用户不带条件
+	public List<User> queryUserList(User user,int startIndex,int endIndex);
+	
+	//通过用户Id来修改用户,查看用户详情
+	public User getUserById(int userId);
+	
+	//修改用户状态:启用/禁用
+	public int updateUseStatus(User user);	
+	//修改用户的状态:逻辑删除,只改变状态
+	public int updateDeleteStatus(User user);
+	//初始化客户密码
+	public int resetPassword(User user);
 
-	// 插入用户, 注册功能
-	public int addUser(User user);
-
+	
+	
+	
+	public int addUser(User user) throws Exception;
+	
 	// 查询, 查询有多少用户已经注册
 	public List<User> queryUsers(User user);
 
@@ -17,23 +40,8 @@ public interface UserDao {
 
 	// 更新表中的数据
 	public int updateUser(User user);
-	//根据用户Id来修改用户
-	public User updateUser(int userId);
-    
-	public User loginUser(User user);
-	
-	//根据用户Id来修改用户,查看用户详情
-	public User getUserById(int userId);
-	
-	//登录
-	public User login(String userName,String password);
-	
+
 	//没用上
 	public int createUserId();
-	
-	//1.查询有多少条符合条件的记录: 总记录数
-	public int queryCount(User user);
-    //2.查询指定页码的数据
-	public List<User> queryUsers(User user,int startIndex,int endIndex);	
 	
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="content">
-        <p>&emsp;欢迎你登录后台管理系统</p>
+                 欢迎你，${sessionScope.loginUser.userName}&nbsp;${sessionScope.loginUser.roleId==1?"系统管理员":"咨询师"}
     </div>
 </body>
 </html>

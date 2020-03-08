@@ -1,12 +1,12 @@
 @charset "UTF-8";
 body,
 ul,
-ol,
 li,
 p {
     margin: 0;
     padding: 0;
     list-style: none;
+    overflow: hidden;
 }
 
 .wrapper {
@@ -22,15 +22,14 @@ p {
     line-height: 100px;
     display: flex;
     justify-content: flex-start;
-    background-color: #009999;
+    border: 1px solid #ccc;
 }
 
 .head-left {
-    width: 350px;
+    width: 250px;
+    text-indent:60px;
     height: 100%;
-    text-align: center;
     font-size: 36px;
-    color: white;
 }
 
 .head-right {
@@ -38,7 +37,6 @@ p {
     height: 100%;
     text-align: right;
     font-size: 28px;
-    color: white;
 }
 
 .head-right span {
@@ -48,11 +46,6 @@ p {
 .head-right a {
     margin-right: 20px;
     text-decoration: none;
-    color: white;
-}
-
-.head-right a:hover {
-    color: red;
 }
 
 .content {
@@ -64,12 +57,13 @@ p {
 }
 
 .adminMainMenu {
-    width: 300px;
-    height: auto;
-    background-color: #333;
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid #ccc;
 }
 
 .adminMainContent {
+	height: 100%;
     flex-grow: 1;
     display: flex;
     justify-content: center;

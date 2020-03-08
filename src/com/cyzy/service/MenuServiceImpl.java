@@ -15,4 +15,16 @@ public class MenuServiceImpl implements MenuService {
 		return menuDao.queryMenuByuserName(userName);
 	}
 
+	@Override
+	public List<Menu> queryAllMenu() {
+		 MenuDao menuDao=(MenuDao)DaoFactory.getDaoImpl(MenuDao.class.getName());
+		return menuDao.queryAllMenu();
+	}
+
+	@Override
+	public List<Menu> queryMenuByRoleId(int roleId) {
+		MenuDao menuDao=(MenuDao)DaoFactory.getDaoImpl(MenuDao.class.getName());
+		return menuDao.queryMenuByRoleId(roleId);
+	}
+
 }

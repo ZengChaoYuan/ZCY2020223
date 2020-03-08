@@ -35,7 +35,7 @@
 </c:forEach>
 </select>
 </p>
-<a href="http://localhost:8080/JF190902/UserServlet?userAction=list">返回用户列表</a>
+<a href="${pageContext.request.contextPath}/UserServlet?userAction=list">返回用户列表</a>
 </div>
 </body>
 </html>

@@ -25,7 +25,7 @@ form input,form select{
 <body>
 <% String userId=request.getParameter("userId"); %>
 <h1 align="center">用户修改</h1>
-<form action="http://localhost:8080/JF190902/UserServlet?userAction=update" method="post" onsubmit="return checkForm()">
+<form action="${pageContext.request.contextPath}/UserServlet?userAction=update" method="post" onsubmit="return checkForm()">
 <input type="hidden" name="userId" id="userId" value="${requestScope.user.userId }">
 用户名: <input type="text" name="userName" id="userName" value="${requestScope.user.userName}"><br>
 密码: <input type="password" name="password" id="password" value="${requestScope.user.password}"><br>
@@ -34,14 +34,15 @@ form input,form select{
 <input type="radio" name="sex" value="0" ${requestScope.user.sex==0?"checked":""}>女
 <br>
 出生日期:<input type="date" name="birthday" id="birthday" value="${requestScope.user.birthday}"><br>
-请选择角色:<select name="roleId">
+请选择角色:
+<select name="roleId">
 <c:forEach items="${requestScope.roleList }" var="role">
 <option ${role.roleId==user.roleId?"selected":""} value="${role.roleId }">${role.roleName }</option>
 </c:forEach>
 </select>
 <br>
 <input type="submit" value="提交">&emsp;
-<a href="http://localhost:8080/JF190902/UserServlet?userAction=list">返回用户列表</a>
+<a href="${pageContext.request.contextPath}/UserServlet?userAction=listLike">返回用户列表</a>
 </form>
 
 <script type="text/javascript">

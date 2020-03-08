@@ -17,10 +17,13 @@ public class GoodsDaoImpl implements GoodsDao {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		String sql="INSERT INTO T_GOODS(GOODS_ID,GOODS_NAME) VALUES(SEQ_T_GOODS.NEXTVAL,?)";
+		String sql="INSERT INTO T_GOODS(GOODS_ID,GOODS_NAME,GOODS_LCLASS,GOODS_SCLASS,STATUS) VALUES(SEQ_T_GOODS.NEXTVAL,?,?,?,?)";
 		try {
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, goods.getGoodsName());
+			ps.setString(2, goods.getGoodsLClass());
+			ps.setString(3, goods.getGoodsSClass());
+			ps.setInt(4, goods.getStatus());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
 
@@ -36,8 +39,7 @@ public class GoodsDaoImpl implements GoodsDao {
 	public int deleteGoods(int goodsId) {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
-		ResultSet rs=null;
-		String sql="DELETE FROM T_Goods WHERE Goods_ID=?";
+		String sql="DELETE FROM T_GOODS WHERE GOODS_ID = ? ";
 		try {
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, goodsId);	
@@ -46,7 +48,7 @@ public class GoodsDaoImpl implements GoodsDao {
 			
 			e.printStackTrace();
 		}finally {
-			DBUtil.closeConn(conn, ps, rs);
+			DBUtil.closeConn(conn, ps, null);
 		}
 		return 0;
 	}
@@ -57,11 +59,14 @@ public class GoodsDaoImpl implements GoodsDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 
-		 String sql = "UPDATE T_USER SET GOODS_NAME=? WHERE GOODS_ID=?";
+		 String sql = "UPDATE T_GOODS SET GOODS_NAME=?,GOODS_LCLASS=?,GOODS_SCLASS=?,STATUS=? WHERE GOODS_ID=?";
 		try {
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, goods.getGoodsName());
-			ps.setInt(2, goods.getGoodsId());
+			ps.setString(2,goods.getGoodsLClass());
+			ps.setString(3,goods.getGoodsSClass());
+			ps.setInt(4, goods.getStatus());
+			ps.setInt(5, goods.getGoodsId());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
 			
@@ -79,7 +84,7 @@ public class GoodsDaoImpl implements GoodsDao {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		String sql="SELECT GOODS_ID,GOODS_NAME FROM T_GOODS WHERE 1=1";
+		String sql="SELECT GOODS_ID,GOODS_NAME,GOODS_LClass,Goods_SClass,STATUS FROM T_GOODS WHERE 1=1";
 		try {
 			
 			ps=conn.prepareStatement(sql);
@@ -89,9 +94,15 @@ public class GoodsDaoImpl implements GoodsDao {
 				
 				int goodsId=rs.getInt("GOODS_ID");
 				String goodsName=rs.getString("GOODS_NAME");
+				String goodsLClass=rs.getString("GOODS_LClass");
+				String goodsSClass=rs.getString("GOODS_SClass");
+				int status=rs.getInt("STATUS");
 				Goods temp=new Goods();
 				temp.setGoodsId(goodsId);
 				temp.setGoodsName(goodsName);
+				temp.setGoodsLClass(goodsLClass);
+				temp.setGoodsSClass(goodsSClass);
+				temp.setStatus(status);
 				goodsList.add(temp);
 			}
 		} catch (SQLException e) {
@@ -101,5 +112,37 @@ public class GoodsDaoImpl implements GoodsDao {
 		}
 	   return goodsList;
 	}
+
+	@Override
+	public Goods getGoodsById(int goodsId) {
+		Connection conn = DBUtil.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Goods goods=null;
+		String sql="SELECT GOODS_ID,GOODS_NAME,GOODS_LClass,Goods_SClass,STATUS FROM T_GOODS WHERE GOODS_ID=? ";
+		try {
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, goodsId);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				goods=new Goods();
+				goods.setGoodsId(rs.getInt("GOODS_ID"));
+				goods.setGoodsName(rs.getString("GOODS_NAME"));
+				goods.setGoodsLClass(rs.getString("GOODS_LClass"));
+				goods.setGoodsSClass(rs.getString("Goods_SClass"));
+				goods.setStatus(rs.getInt("STATUS"));
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		
+		return goods;
+	}
+
+	
 
 }

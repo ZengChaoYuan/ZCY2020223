@@ -12,10 +12,10 @@
  <div class="wrapper">
         <div class="head">
             <div class="head-left">
-                <p>后台管理系统</p>
+                                     管理端
             </div>
             <div class="head-right">
-                <span>欢迎${sessionScope.loginUser.userName},登录成功</span>
+                <span>欢迎你，${sessionScope.loginUser.userName}&nbsp;${sessionScope.loginUser.roleId==1?"系统管理员":"咨询师"}</span>
                 <a href="${pageContext.request.contextPath}/LoginServlet?loginAction=loginOut">退出</a>
             </div>
         </div>

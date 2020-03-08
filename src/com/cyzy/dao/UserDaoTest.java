@@ -4,10 +4,13 @@ import com.cyzy.bean.User;
 
 public class UserDaoTest {
 	public static void main(String[] args) {
-//      UserDao userDao=new UserDaoImpl();
-//      User user=new User(27,"lindongdong","123456","林栋栋",0,"1996-07-08",3);
-//      int result=userDao.updateUser(user);
-//      System.out.println(result>0?"成功":"失败");
-      
+		UserDao userDao=new UserDaoImpl();
+//		User user=new User(0, "zhangsan", null, null, 0, null, 0);
+//		User users=userDao.checkUserName(user.getUserName());
+//		if(users !=null) {
+//			System.out.println("用户存在!!!");
+//		}else {
+//			System.out.println("用户不存在!!!");
+//		}
 	}
 }

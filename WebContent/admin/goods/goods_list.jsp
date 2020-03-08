@@ -1,4 +1,4 @@
-<%@page import="com.cyzy.bean.Role"%>
+<%@page import="com.cyzy.bean.Goods"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>展示所有角色</title>
+<title>展示所有商品</title>
 <style type="text/css">
 body,
 ul,
@@ -148,7 +148,6 @@ table tr td a {
 </style>
 </head>
 <body>
-
 <div class="wrapper">
 		<div class="contentArea">
 			<form action="">
@@ -157,35 +156,38 @@ table tr td a {
 					<span>商品分类名称: <input type="text" width="200px"></span> <span>上级商品分类:
 						<select style="width: 100px;">
 							<option>请选择</option>
-							
 					</select>
 					</span>
 				</p>
 				<p>
 					<input type="button" value="查询"><input type="reset"
-						value="重置"> <a href="./role_add.jsp" target="adminMainContent">新增</a>
+						value="重置"> <a href="${pageContext.request.contextPath}/admin/goods/goods_add.jsp" target="adminMainContent">新增</a>
 				</p>
 			</form>
 			<div class="list">
 				<p>列表区域</p>
 				<table border="1" style="border-collapse: collapse;">
 					<tr>
-						<th>角色ID</th>
-						<th>角色名称</th>
+						<th>商品名称</th>
+						<th>商品大类别</th>
+						<th>商品小类别</th>
+						<th>状态</th>
 						<th>操作</th>
 					</tr>
 					<%
 						//先把数据取出来，通过request对象（内置对象，不需要我们去创建，其实是httpservletRequest对象的实例）
-						List<Role> roleList = (List<Role>) request.getAttribute("roleList");
-							for(Role role:roleList){
+						List<Goods> goodsList = (List<Goods>) request.getAttribute("goodsList");
+							for(Goods goods:goodsList){
 					%>
 					<tr>
-						<td><%=role.getRoleId()%></td>
-						<td><%=role.getRoleName()%></td>
-						<td><a
-							href="http://localhost:8080/JF190902/RoleServlet?roleAction=updateBefore&roleId=<%=role.getRoleId()%>">修改</a>
-							<a href="http://localhost:8080/JF190902/RoleServlet?roleAction=delete&roleId=<%=role.getRoleId()%>">删除</a> 
-							<a href="http://localhost:8080/JF190902/RoleServlet?roleAction=detail&roleId=<%=role.getRoleId()%>">查看详情</a>
+						<td><%=goods.getGoodsName()%></td>
+						<td><%=goods.getGoodsLClass()%></td>
+						<td><%=goods.getGoodsSClass()%></td>
+						<td><%=goods.getStatus()==0?"未发布":"已发布"%></td>
+						<td>
+						<a href="${pageContext.request.contextPath}/GoodsServlet?goodsAction=updateBefore&goodsId=<%=goods.getGoodsId()%>">修改</a>
+						<a href="${pageContext.request.contextPath}/GoodsServlet?goodsAction=delete&goodsId=<%=goods.getGoodsId()%>">删除</a> 
+						<a href="${pageContext.request.contextPath}/GoodsServlet?goodsAction=detail&goodsId=<%=goods.getGoodsId()%>">查看详情</a>
 						</td>
 					</tr>
 
@@ -209,6 +211,5 @@ table tr td a {
 		</div>
 
 	</div>
-
 </body>
 </html>

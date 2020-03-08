@@ -6,24 +6,35 @@ import com.cyzy.bean.User;
 import com.cyzy.util.Page;
 
 public interface UserService {
-	
-  
-	//根据ID来获取一个user对象
+	// 检测用户名是否重复
+	public User checkUserName(String userName);
+
+	// 登录
+	public User login(String userName, String password);
+
+	// 分页查询不带条件
+	public Page<User> queryUserList(User user, int currentPageNum);
+
+	// 通过用户ID来获得后台用户的完整信息
 	public User getUserById(int userId);
-	//查询
+
+	// 修改用户状态:启用/禁用
+	public int updateUseStatus(User user);
+	// 修改用户的状态:逻辑删除,只改变状态
+	public int updateDeleteStatus(User user);
+	// 初始化客户密码
+	public int resetPassword(User user);
+
+	// 查询
 	public List<User> queryUsers(User user);
-	//增加
-	public int addUser(User user);
-	//删除
+
+	// 增加
+	public int addUser(User user) throws Exception;
+
+	// 删除
 	public int deleteUser(int userId);
-	//修改
+
+	// 修改
 	public int updateUser(User user);
-	
-	//登录
-	public User login(String userName,String password);
-	
-	//返回page对象:里面包含页面展示的 1.数据,2.和分页相关的数据
-	//参数:包含2个,1是查询条件,2是查询页码
-	public Page<User> queryUsers(User user,int currentPageNum);
-		
+
 }

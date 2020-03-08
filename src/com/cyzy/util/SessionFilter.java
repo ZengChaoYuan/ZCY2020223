@@ -46,8 +46,11 @@ public class SessionFilter implements Filter {
 		//判断是否是登录页，登录servlet
 		//indexOf是为包含
 		if(servletPath!=null && servletPath.indexOf("/index.jsp")!=-1
-				||servletPath.indexOf("/LoginServlet")!=-1
+				||servletPath.indexOf("/front/login.jsp")!=-1		
+				||servletPath.indexOf("/CustomerLoginServlet")!=-1
+				||servletPath.indexOf("/AjaxLoginServlet")!=-1
 				||servletPath.indexOf("/ImageServlet")!=-1
+				||servletPath.indexOf("/CountServlet")!=-1
 				||servletPath.indexOf(".css")!=-1
 				||servletPath.indexOf(".js")!=-1
 				||servletPath.indexOf(".jpg")!=-1
@@ -55,20 +58,20 @@ public class SessionFilter implements Filter {
 			chain.doFilter(request, response);//执行下一个过滤器，没有下一个过滤器，就直接访问到目标servlet
 		}else {
 			//比如登录界面、登录servlet请求，是不需要登录状态就可以直接访问的
-			if(user==null) {
-				//没有经过servlet,所以还是要写
-				response.setContentType("text/html");
-				request.setCharacterEncoding("UTF-8");
-				
-				PrintWriter out =response.getWriter();
-				out.println("<script>");
-				out.println("window.alert('会话失效了!');");
-				out.println("window.top.location.href='"+req.getContextPath()+"/index.jsp';");
-				out.println("</script>");
-				
-			}else {
+//			if(user==null) {
+//				//没有经过servlet,所以还是要写
+//				response.setContentType("text/html");
+//				request.setCharacterEncoding("UTF-8");
+//				
+//				PrintWriter out =response.getWriter();
+//				out.println("<script>");
+//				out.println("window.alert('会话失效了!');");
+//				out.println("window.top.location.href='"+req.getContextPath()+"/index.jsp';");
+//				out.println("</script>");
+//				
+//			}else {
 				chain.doFilter(request, response);//执行下一个过滤器，没有下一个过滤器，就直接访问到目标servlet
-			}
+//			}
 		}
 	}
 

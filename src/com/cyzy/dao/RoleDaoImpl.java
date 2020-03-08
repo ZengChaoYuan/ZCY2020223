@@ -12,7 +12,58 @@ import com.cyzy.bean.Role;
 import com.cyzy.util.DBUtil;
 
 public class RoleDaoImpl implements RoleDao {
+	
+	@Override
+	public int createRoleId() {
+		Connection conn =DBUtil.getConnection();
+		PreparedStatement ps = null;	
+		ResultSet rs=null;
+		String sql="SELECT SEQ_T_ROLE.NEXTVAL AS ROLE_ID FROM DUAL";
+		int roleId=0;
+		try {
+			ps= conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()){
+				roleId=rs.getInt("ROLE_ID");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		return roleId;	
+	}
 
+	
+	@Override
+	public Role getRoleById(int roleId) {
+		Connection conn =null;
+		PreparedStatement ps = null;	
+		ResultSet rs=null;
+		Role role=null;
+		try {
+			 conn=DBUtil.getConnection();
+			 String sql = "SELECT ROLE_ID,ROLE_NAME FROM T_ROLE WHERE ROLE_ID=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, roleId);
+		
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				role=new Role();
+				role.setRoleId(rs.getInt("ROLE_ID"));
+				role.setRoleName(rs.getString("ROLE_NAME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+
+		return role;
+	}
+
+	
 	@Override
 	public int addRole(Role role) {
 		Connection conn=DBUtil.getConnection();
@@ -37,7 +88,6 @@ public class RoleDaoImpl implements RoleDao {
 	public int deleteRole(int roleId) {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
-		ResultSet rs=null;
 		String sql="DELETE FROM T_ROLE WHERE ROLE_ID=?";
 		try {
 			ps=conn.prepareStatement(sql);
@@ -47,7 +97,7 @@ public class RoleDaoImpl implements RoleDao {
 			
 			e.printStackTrace();
 		}finally {
-			DBUtil.closeConn(conn, ps, rs);
+			DBUtil.closeConn(conn, ps, null);
 		}
 		
 		return 0;
@@ -57,7 +107,6 @@ public class RoleDaoImpl implements RoleDao {
 	public int updateRole(Role role) {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
-		ResultSet rs=null;
 
 		 String sql = "UPDATE T_ROLE SET ROLE_NAME=? WHERE ROLE_ID=? ";
 		try {
@@ -69,7 +118,7 @@ public class RoleDaoImpl implements RoleDao {
 			
 			e.printStackTrace();
 		}finally {
-			DBUtil.closeConn(conn, ps, rs);
+			DBUtil.closeConn(conn, ps, null);
 		}
 		
 		return 0;
@@ -109,5 +158,9 @@ public class RoleDaoImpl implements RoleDao {
 			}
 		return roles;
 	}
+
+
+	
+	
 
 }

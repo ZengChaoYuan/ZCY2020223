@@ -1,111 +1,66 @@
-@charset "UTF-8";
-body,
-ul,
-li,
-p {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-a{
-  margin-left: 450px;
-}
-
-.wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("../image/1.jpg");
-}
-
-.content {
-    width: 600px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(204, 204, 204, 0.8);
-    border-radius: 12px;
-}
-
-h1 {
-    text-align: center;
-}
-
-form {
-    width: 92%;
-    margin: 0 auto;
-    height: auto;
-}
-
-form>ul {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    border-top: 2px solid #999;
-
-}
-
-form>ul>li {
-    height: 60px;
-    line-height: 60px;
-    margin-top: 10px;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-form>ul>li:nth-child(odd) {
-    width: 20%;
-    text-align: right;
-
-}
-
-form>ul>li:nth-child(even) {
-    width: 70%;
-    flex-grow: 1;
-
-}
-
-#userName,
-#password {
-    width: 220px;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    text-indent: 20px;
-    outline: none;
-    margin-left: 20px;
-}
-
-form>ul>li:last-child {
-    width: 100%;
-    text-align: center;
-}
-
-form>ul>li:last-child>input {
-    width: 120px;
-    height: 40px;
-    background-color: transparent;
-    border-radius: 8px;
-    outline: none;
-    border: 1px solid #666;
-    font-size: 18px;
-}
-
-form>ul>li:last-child>input:nth-child(2) {
-    margin-left: 15px;
-}
-
-form>ul>li:last-child>input:hover {
-    cursor: pointer;
-    background-color: red;
-    color: white;
-    border: 1px solid transparent;
-}
-
-h2 {
-    text-align: center;
-}
+ body,
+        a{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+        
+        a {
+            color: skyblue;
+            margin-left: 10px;
+        }
+        h1 {
+            margin:20px;
+            text-align: center;
+        }
+        
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("../image/1.jpg") center;
+        }
+        
+        .content-side {
+            width: auto;
+            height: auto;
+            border: 1px solid #666;
+            background-color: white;
+        }
+        
+        table{
+         width:auto;
+         margin:30px auto;
+         font-size: 18px;
+        }
+        .input{
+          height: 30px;
+          text-indent: 10px;
+          margin-right: 8px;
+        }
+       
+        .zhixu{
+         display: flex;
+         justify-content: center;
+        }
+        
+        #loginBtn{
+         padding:8px 16px;
+         border-radius: 8px;
+         border: 1px solid #666;
+         outline: none;
+        }
+        #loginBtn:hover{
+         cursor: pointer;
+        }
+        .imageCode{
+         background-color: transparent;
+         color: skyblue;
+         border:0;
+         outline: none;
+        }
+        .imageCode:hover{
+         cursor: pointer;
+        }          
