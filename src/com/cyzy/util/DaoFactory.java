@@ -15,6 +15,8 @@ import com.cyzy.dao.ParamDao;
 import com.cyzy.dao.ParamDaoImpl;
 import com.cyzy.dao.RoleDao;
 import com.cyzy.dao.RoleDaoImpl;
+import com.cyzy.dao.RoleMenuDao;
+import com.cyzy.dao.RoleMenuDaoImpl;
 import com.cyzy.dao.UserDao;
 import com.cyzy.dao.UserDaoImpl;
 
@@ -27,9 +29,8 @@ public class DaoFactory {
 			config.put(CustomerDao.class.getName(),new CustomerDaoImpl());//前台用户dao
 			config.put(ParamDao.class.getName(),new ParamDaoImpl());//参数表dao
 			config.put(RoleDao.class.getName(), new RoleDaoImpl());//角色dao
-			
-			
-			
+			config.put(RoleMenuDao.class.getName(),new RoleMenuDaoImpl());//角色菜单中间表
+					
 			config.put(GoodsDao.class.getName(), new GoodsDaoImpl());//商品dao
 			config.put(MenuDao.class.getName(),new MenuDaoImpl());//菜单dao
 			config.put(LogDao.class.getName(),new LogDaoImpl());//日志dao

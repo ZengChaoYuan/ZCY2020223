@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+ body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            background: url("../image/1.jpg") center;
+        }
+        
+        .content {
+            width: auto;
+            height: auto;
+            border: 1px solid #666;
+            background-color: white;
+        }
+        table{
+         margin: 30px 40px;
+         font-size: 18px;
+        }
+        
+        .registerBtn,.backLogin{
+         padding:8px 16px;
+         border-radius: 8px;
+         border: 1px solid #666;
+         outline: none;
+        
+        }
+        .backLogin{
+         margin-left: 16px;
+        }
+        .registerBtn:hover,.backLogin:hover{
+         cursor: pointer;
+        }

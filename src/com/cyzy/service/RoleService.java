@@ -10,6 +10,7 @@ public interface RoleService {
 	public Role getRoleById(int roleId);
 	
 	
+	
 	//≤È—Ø
 	public List<Role> queryRole(Role role);
 	

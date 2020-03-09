@@ -1,0 +1,69 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+.contentArea {
+	width: 90%;
+	height: 650px;
+	display: flex;
+	flex-direction: column;
+}
+
+.contentArea>.topForm {
+	width: 100%;
+	height: 30%;
+	border: 1px solid #666;
+	border-radius: 12px;
+}
+table tr th{
+	font-size: 22px;
+}
+table tr td{
+	font-size: 18px;
+}
+.contentArea>.list {
+	width: 100%;
+	margin-top: 2%;
+	height: 65%;
+	border: 1px solid #666;
+	border-radius: 12px;
+}
+
+.list>table {
+	width: 96%;
+	height: 100px;
+	margin: 30px auto 0;
+}
+
+table tr td {
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+}
+
+
+table tr td a {
+	text-decoration: none;
+}
+
+.submit{
+	     padding:8px 16px;
+         border-radius: 8px;
+         border: 1px solid #666;
+         outline: none;
+}
+.submit:hover{
+	cursor: pointer;
+}
+

@@ -163,4 +163,14 @@
     <servlet-name>CustomerServlet</servlet-name>
     <url-pattern>/CustomerServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TitleServlet</display-name>
+    <servlet-name>TitleServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.TitleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TitleServlet</servlet-name>
+    <url-pattern>/TitleServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -13,6 +13,8 @@ import com.cyzy.service.MenuService;
 import com.cyzy.service.MenuServiceImpl;
 import com.cyzy.service.ParamService;
 import com.cyzy.service.ParamServiceImpl;
+import com.cyzy.service.RoleMenuService;
+import com.cyzy.service.RoleMenuServiceImpl;
 import com.cyzy.service.RoleService;
 import com.cyzy.service.RoleServiceImpl;
 import com.cyzy.service.UserService;
@@ -25,7 +27,7 @@ public class ServiceFactory {
     	config.put(CustomerService.class.getName(), new CustomerServiceImpl());//前台用户service
     	config.put(ParamService.class.getName(), new ParamServiceImpl());//参数service
     	config.put(RoleService.class.getName(), new RoleServiceImpl());//角色service
-    	
+    	config.put(RoleMenuService.class.getName(), new RoleMenuServiceImpl());//角色菜单service
     	config.put(GoodsService.class.getName(),new GoodsServiceImpl());//商品service
     	config.put(MenuService.class.getName(),new MenuServiceImpl());//菜单service
     	config.put(LogService.class.getName(),new LogServiceImpl());//日志service
