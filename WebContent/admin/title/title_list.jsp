@@ -1,34 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>题目列表</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/title_list.css">
 </head>
 <body>
+<div class="wrapper">
+<div class="contentArea">
+<div class="list">
+<table border="1" cellpadding="15" style="border-collapse: collapse;">
+<tr>
+<th colspan="2">题目列表</th>
+<th><a href="${pageContext.request.contextPath}/admin/title/title_add.jsp">新增</a></th>
+</tr>
+                     <tr>
+						<th>题目</th>
+						<th>选项</th>
+						<th>操作</th>
+					</tr>
 <c:choose>
-				<c:when test="${not empty requestScope.title }">
-				<c:forEach items="${requestScope.page.records }" var="customer">
-				   <tr>
-				     <td>${customer.customerName }</td>
-				     <td>${customer.sex==1?"男":"女" }</td>
-				     <td>${customer.age }</td>
-				     <td>${customer.tel }</td>
-				     <td>${customer.useStatus==1?"启用":"禁用" }</td>
-				     <td>
-				      <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=updateUseStatus&customerId=${customer.customerId}">${customer.useStatus==1?"禁用":"启用" }</a>
-				      
-				    <!--  <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=updateDeleteStatus&customerId=${customer.customerId}">${customer.deleteStatus==1?"删除":"已删除" }</a>
-				     -->
-				    <!--  <a   customerId='${ customer.customerId}' onclick="deleteStatus(${customer.customerId})">${customer.deleteStatus==1?"删除":"已删除" }</a> -->
-				     <a  onclick="deleteStatus(${customer.customerId})">${customer.deleteStatus==1?"删除":"已删除" }</a>
-				     <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=resetPassword&customerId=${customer.customerId}">重置密码</a>		
-				     						
-					</td>
-				   </tr>
-				</c:forEach>
-				<tr>
+<c:when test="${not empty requestScope.titleList }">
+<c:forEach items="${requestScope.titleList }" var="title">
+ <tr>
+  <td>${title.titleId}.${title.titleName}</td>
+  <td>
+  <c:forEach items="${title.items }" var="item">
+      <input type="radio">${item.itemName }
+  </c:forEach>
+  </td>
+   <td>
+    <a href="${pageContext.request.contextPath}/TitleServlet?titleAction=updateBefore&titleId=${title.titleId}">修改</a>
+    <a onclick="deleteItem(${title.titleId})">删除</a>
+  </td>
+ </tr>
+</c:forEach>
+  <tr>
 								<td colspan="6" align="center">
 									共&nbsp;${page.totalRecordsNum}&nbsp;条记录,共&nbsp;${page.totalPageNum}&nbsp;页,
 									当前第&nbsp;${page.currentPageNum}&nbsp;页
@@ -41,12 +51,48 @@
 									onclick="pageMethod(${page.totalPageNum})">尾页</a>
 								</td>
 							</tr>
-				</c:when>
-				<c:otherwise>
+</c:when>
+			            <c:otherwise>
 							<tr>
-								<td colspan="6">用户列表查无数据</td>
+								<td colspan="3">题目列表查无数据</td>
 							</tr>
 						</c:otherwise>
-				</c:choose>	
+
+</c:choose>
+</table> 
+</div>
+</div>
+</div>
 </body>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+function updateItem(){
+	alert("修改");
+}
+function deleteItem(obj){
+	if(confirm("确定要删除吗?")){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/TitleServlet?titleAction=delete",
+			type:"post",
+			data:{"titleId":obj},
+			async:true,
+			dataType:"JSON",
+			success:function (data){
+				console.log(data);
+				if(data.id==1){
+                   window.alert(data.msg);
+					window.location.href="${pageContext.request.contextPath}/TitleServlet?titleAction=list";
+			     }else if(data.id==2){
+			    	 window.alert(data.msg);
+			     }
+			},	
+			error:function(data){
+				alert("出错了!!!");
+			}
+		})
+	}
+	
+	
+}
+</script>
 </html>

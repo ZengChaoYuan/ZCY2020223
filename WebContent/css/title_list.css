@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+.contentArea {
+	width: 95vw;
+	height: 90vh;
+	display: flex;
+}
+
+.list {
+	width: 100%;
+	margin-top: 2%;
+	height: 70vh;
+	border: 1px solid #666;
+	border-radius: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.list>table {
+	width: 96%;
+	height: 100px;
+	margin: 0 auto;
+}
+table tr th{
+	font-size: 24px;
+}
+table tr td {
+	font-size: 18px;
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+}
+
+
+table tr td a {
+	text-decoration: none;
+}

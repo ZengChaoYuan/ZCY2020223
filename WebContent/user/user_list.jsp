@@ -23,14 +23,16 @@
 
 				<p>
 					<span>请输入用户名:&emsp;<input name="userName"
-						value="${param.userName }"></span> <span>请选择角色:&emsp; <select
+						value="${param.userName }"></span> <span>请选择角色:&emsp; 
+						<select
 						name="roleId">
 							<option value="0">请选择</option>
 							<c:forEach items="${requestScope.roleList }" var="role">
 								<option ${role.roleId == param.roleId ? " selected ":""}
 									value="${role.roleId }">${role.roleName }</option>
 							</c:forEach>
-					</select></span> <span> <a
+					    </select>
+					</span> <span> <a
 						href="${pageContext.request.contextPath}/UserServlet?userAction=addBefore"
 						target="adminMainContent">新增 </a>
 					</span>

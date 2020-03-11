@@ -13,7 +13,6 @@ import com.cyzy.util.JDBCUtil;
 public class RoleMenuDaoImpl implements RoleMenuDao {
 	private static QueryRunner runner=new QueryRunner(JDBCUtil.getDataSource());
 	
-	
 	@Override
 	public int addRoleMenu(int roleId, int[] menuIds) throws Exception {
 		//增加角色菜单中间表
