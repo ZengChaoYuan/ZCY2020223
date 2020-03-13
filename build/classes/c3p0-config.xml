@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+  <default-config>
+  	<property name="driverClass">oracle.jdbc.OracleDriver</property>
+  	<property name="jdbcUrl">jdbc:oracle:thin:@localhost:1521:orcl</property>
+  	<property name="user">jf1909</property>
+  	<property name="password">123456</property>
+    <property name="initialPoolSize">20</property>
+    <property name="maxIdleTime">30</property>
+    <property name="maxPoolSize">50</property>
+    <property name="minPoolSize">10</property>
+    <property name="idleConnectionTestPeriod">10</property>
+  </default-config>
+
+<!--  自定义配置
+initialPoolSize:表示初始化多少个连接对象
+maxPoolSize：连接池中最多运行有多少个连接对象，超过此数字，不再自动创建连接对象
+minPoolSize：连接池中保留的最小连接数
+maxIdleTime：最大的空闲时间：如果30秒内为被使用，此连接被被丢弃。
+  <named-config name="abc"> 
+    <property name="initialPoolSize">100</property>
+    <property name="minPoolSize">50</property>
+    <property name="maxPoolSize">1000</property>
+  </named-config>
+  -->
+</c3p0-config>

@@ -1,7 +1,5 @@
 package com.cyzy.dao;
 
-import com.cyzy.bean.User;
-
 public class UserDaoTest {
 	public static void main(String[] args) {
 		UserDao userDao=new UserDaoImpl();

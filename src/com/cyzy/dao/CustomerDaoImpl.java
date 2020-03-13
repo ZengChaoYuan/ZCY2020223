@@ -376,6 +376,20 @@ public class CustomerDaoImpl implements CustomerDao {
 		
 		return count;
 	}
+
+	@Override
+	public int updateBalance(Customer customer) {
+		int count=0;
+		String sql="UPDATE T_CUSTOMER SET BALANCE=? WHERE CUSTOMER_ID=?";
+		Object [] params= {customer.getBalance(),customer.getCustomerId()};
+		try {
+			count=runner.update(sql,params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+	return count;
+	}
    
 	
 }

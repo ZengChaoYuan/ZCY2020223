@@ -40,6 +40,10 @@ public class TitleServlet extends HttpServlet {
 		String titleAction = request.getParameter("titleAction");
 		if (titleAction != null && titleAction.equals("list")) {
 			queryTitleList(request, response);
+		}else if(titleAction != null && titleAction.equals("countScope")) {
+			countScope(request,response);
+		}else if(titleAction != null && titleAction.equals("answer")) {
+			answer(request,response);
 		}else if(titleAction != null && titleAction.equals("add")) {
 			addTitleItem(request,response);
 		}else if(titleAction != null && titleAction.equals("delete")) {
@@ -50,6 +54,38 @@ public class TitleServlet extends HttpServlet {
 			updateTitleItem(request,response);
 		}
 
+	}
+	//提交,计算得分
+	private void countScope(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+	request.getRequestDispatcher("/front/customer/index.jsp").forward(request, response);
+	}
+	
+	
+	
+	//评估答题
+	private void answer(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		int areaId = Integer.parseInt(request.getParameter("areaId"));
+		TitleService titleService=(TitleService)ServiceFactory.getServiceImpl(TitleService.class.getName());
+		//查找该领域下面所有的题目
+		List<Title> titleList =titleService.queryTitles(areaId);
+		for(int i=0;i<titleList.size();i++) {
+			//得到所有的题目
+			Title title=titleList.get(i);
+			//得到题目的ID
+			int titleId=title.getTitleId();
+		ItemService itemService=(ItemService)ServiceFactory.getServiceImpl(ItemService.class.getName());
+		    //通过题目的ID找到对应的选项
+			List<Item> itemList=itemService.queryItems(titleId);
+			//把选项的集合放到题目里面
+			title.setItems(itemList);
+		}
+		
+		request.setAttribute("titleList", titleList);
+		request.getRequestDispatcher("/front/customer/assess_answer.jsp").forward(request, response);
 	}
 	
 	private void addTitleItem(HttpServletRequest request, HttpServletResponse response)
@@ -176,7 +212,6 @@ public class TitleServlet extends HttpServlet {
 		response.setContentType("text/html");
 		int areaId=1;
 		int titleId = Integer.parseInt(request.getParameter("titleId"));
-		System.out.println(titleId);
 		String titleName=request.getParameter("titleName");
 		String[] itemNames=request.getParameterValues("itemNames");
 		String[] scope=request.getParameterValues("scopes");

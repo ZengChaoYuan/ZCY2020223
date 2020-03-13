@@ -87,6 +87,12 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.resetPassword(customer);
 	}
 
+	@Override
+	public int updateBalance(Customer customer) {
+		CustomerDao customerDao = (CustomerDao) DaoFactory.getDaoImpl(CustomerDao.class.getName());
+		return customerDao.updateBalance(customer);
+	}
+
 	
 
 }

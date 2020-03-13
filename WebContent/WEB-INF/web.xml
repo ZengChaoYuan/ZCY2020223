@@ -173,4 +173,44 @@
     <servlet-name>TitleServlet</servlet-name>
     <url-pattern>/TitleServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderTimeServlet</display-name>
+    <servlet-name>OrderTimeServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.OrderTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderTimeServlet</servlet-name>
+    <url-pattern>/OrderTimeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AreaServlet</display-name>
+    <servlet-name>AreaServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.AreaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AreaServlet</servlet-name>
+    <url-pattern>/AreaServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MyAccountServlet</display-name>
+    <servlet-name>MyAccountServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.MyAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyAccountServlet</servlet-name>
+    <url-pattern>/MyAccountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AssReportServlet</display-name>
+    <servlet-name>AssReportServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.AssReportServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AssReportServlet</servlet-name>
+    <url-pattern>/AssReportServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -26,6 +26,9 @@ public interface CustomerDao {//前台用户表
   //根据客户ID来拿到客户的完整信息
   public Customer getCustomerById(int customerId);
   
+  //修改用户余额
+  public int updateBalance(Customer customer);
+  
   //修改用户的状态:启用/禁用
   public int updateUseStatus(Customer customer);
   //修改用户的状态:逻辑删除,只改变状态

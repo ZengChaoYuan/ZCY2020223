@@ -22,7 +22,7 @@ form input,form select{
 <body>
 <h1 align="center">新增用户</h1>
 <form action="${pageContext.request.contextPath}/UserServlet?userAction=add" method="post">
-<input type="hidden" name="userId" id="userId" >
+<input type="hidden" name="userId" id="userId" value="" >
 用户名: <input type="text" name="userName" id="userName" placeholder="请输入用户名" value="">
 <input type="button" id="checkRepeat" value="检验是否重复">
 <span id="message"></span><br>
