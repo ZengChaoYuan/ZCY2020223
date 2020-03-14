@@ -8,8 +8,8 @@
 </head>
 <body>
 <h1>客户评测报告</h1>
-评测结果:${requestScope.singAss.ASS_RESULT }<br>
-报告内容:${requestScope.singAss.REPORT_CONTENT }<br>
+评测结果:${requestScope.singAss.ASS_RESULT}<br>
+报告内容:${requestScope.singAss.REPORT_CONTENT}<br>
 <a href="${pageContext.request.contextPath}/AssReportServlet?assAction=userQueryReport">返回</a>
 </body>
 </html>
