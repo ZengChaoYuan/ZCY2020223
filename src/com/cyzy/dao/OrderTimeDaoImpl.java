@@ -4,15 +4,43 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.dbutils.QueryRunner;
 import com.cyzy.bean.OrderTime;
 import com.cyzy.util.DBUtil;
+import com.cyzy.util.JDBCUtil;
 
 public class OrderTimeDaoImpl implements OrderTimeDao {
-
+	private static QueryRunner runner=new QueryRunner(JDBCUtil.getDataSource());
+	@Override
+	public int saveOrderTime(int userId, String orderDate, String[] orderHour) throws Exception {
+		String sql="INSERT INTO T_ORDERTIME(ORDERTIME_ID,USER_ID,ORDER_DATE,ORDER_HOUR)VALUES "
+				+ " (SEQ_T_ORDERTIME.NEXTVAL,?,TO_DATE(?, 'YYYY-MM-DD'),?)";
+		Object[][]params=new Object[orderHour.length][];
+		for(int i=0;i<orderHour.length;i++) {
+			params[i]=new Object[3];
+			params[i][0]=userId;
+			params[i][1]=orderDate;
+			params[i][2]=orderHour[i];
+		}
+		return runner.batch(JDBCUtil.getConnection(), sql, params).length;
+	}
+	
+	@Override
+	public int deleteTodayOrderTime(String orderDate) {
+		int result = 0;
+		String sql="DELETE FROM T_ORDERTIME WHERE ORDER_DATE= TO_DATE(?,'yyyy-mm-dd')";
+		Object[] params = {orderDate};
+		
+		try {
+			result = runner.update(sql, params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	@Override
 	public List<OrderTime> queryOrderTime(OrderTime orderTime) {
 		return null;
@@ -76,14 +104,6 @@ public class OrderTimeDaoImpl implements OrderTimeDao {
 		}
 		return orderTimeList;
 	}
-
-	@Override
-	public boolean saveOrderTime(int userId, String orderDate, String[] orderHour) {
-		
-		return false;
-	}
-
-	
 
 	
 
