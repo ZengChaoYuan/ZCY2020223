@@ -10,8 +10,6 @@ public interface OrderTimeDao {
    //根据咨询师ID
    public List<OrderTime> queryOrderTime(int userId);
    
-   
-   
    public List<OrderTime> queryOrderTime(OrderTime orderTime);
    
    //先删除掉当前日期的时间

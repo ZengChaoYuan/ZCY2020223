@@ -40,7 +40,23 @@ public class OrderTimeServlet extends HttpServlet {
 			queryOrderTime(request,response);
 		}else if(orderTimeAction!=null&&orderTimeAction.equals("saveOrderTime")) {
 			saveOrderTime(request,response);
+		}else if(orderTimeAction!=null&&orderTimeAction.equals("customerQueryOrderTime")) {
+			customerQueryOrderTime(request,response);
 		}
+	}
+	private void customerQueryOrderTime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// ·ÀÖ¹ÂÒÂë
+		response.setContentType("text/html");
+		int userId=Integer.parseInt(request.getParameter("consultId"));
+		String date=request.getParameter("orderDate");
+		if(date==null||date.equals("")) {
+			Date d=new Date();
+			date=new SimpleDateFormat("yyyy-MM-dd").format(d);
+		}
+		OrderTimeService orderTimeService=(OrderTimeService)ServiceFactory.getServiceImpl(OrderTimeService.class.getName());
+		List<OrderTime> orderTimeList=orderTimeService.queryOrderTime(userId, date);
+		String json=JSONObject.toJSONString(orderTimeList);
+		response.getWriter().println(json);
 	}
 	private void saveOrderTime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ·ÀÖ¹ÂÒÂë

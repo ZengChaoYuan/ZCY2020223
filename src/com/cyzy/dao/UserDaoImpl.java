@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapHandler;
 
 import com.cyzy.bean.User;
 import com.cyzy.util.DBUtil;
@@ -361,6 +363,20 @@ public class UserDaoImpl implements UserDao {
 	public int createUserId() {
 
 		return 0;
+	}
+
+	@Override
+	public Map<String, Object> querySingUserByUserId(int userId) {
+		String sql="SELECT USER_ID,USER_NAME,PASSWORD,USE_STATUS,DELETE_STATUS,PROFESSOR,ROLE_ID,BALANCE,SCHOOL,INTRO,PRE_EXPENSE,REAL_NAME"
+				+ " FROM T_USER WHERE USER_ID=?";
+		Map<String,Object> singUser=null;
+		Object[] params= {userId};
+		try {
+			singUser=runner.query(sql, params,new MapHandler());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return singUser;
 	}
 
 }

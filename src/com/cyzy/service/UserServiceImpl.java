@@ -2,6 +2,7 @@ package com.cyzy.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.cyzy.bean.User;
 import com.cyzy.dao.UserDao;
@@ -87,6 +88,12 @@ public class UserServiceImpl implements UserService {
 	public int updateUser(User user) {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.updateUser(user);
+	}
+
+	@Override
+	public Map<String, Object> querySingUserByUserId(int userId) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.querySingUserByUserId(userId);
 	}
 
 }

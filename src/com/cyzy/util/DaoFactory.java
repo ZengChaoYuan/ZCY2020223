@@ -9,6 +9,8 @@ import com.cyzy.dao.AssReportDao;
 import com.cyzy.dao.AssReportDaoImpl;
 import com.cyzy.dao.CustomerDao;
 import com.cyzy.dao.CustomerDaoImpl;
+import com.cyzy.dao.DictDao;
+import com.cyzy.dao.DictDaoImpl;
 import com.cyzy.dao.GoodsDao;
 import com.cyzy.dao.GoodsDaoImpl;
 import com.cyzy.dao.ItemDao;
@@ -23,6 +25,8 @@ import com.cyzy.dao.OrderTimeDao;
 import com.cyzy.dao.OrderTimeDaoImpl;
 import com.cyzy.dao.ParamDao;
 import com.cyzy.dao.ParamDaoImpl;
+import com.cyzy.dao.PreOrderDao;
+import com.cyzy.dao.PreOrderDaoImpl;
 import com.cyzy.dao.RoleDao;
 import com.cyzy.dao.RoleDaoImpl;
 import com.cyzy.dao.RoleMenuDao;
@@ -39,6 +43,7 @@ public class DaoFactory {
 		private static Map<String,Object> config=new HashMap<String,Object>();
 		//静态块,只有一个实例
 		static {
+			config.put(DictDao.class.getName(),new DictDaoImpl());//字典表
 			config.put(UserDao.class.getName(),new UserDaoImpl());//后台用户dao
 			config.put(CustomerDao.class.getName(),new CustomerDaoImpl());//前台用户dao
 			config.put(ParamDao.class.getName(),new ParamDaoImpl());//参数表dao
@@ -51,6 +56,7 @@ public class DaoFactory {
 			config.put(MyAccountDao.class.getName(), new MyAccountDaoImpl());//我的账户
 			config.put(AssReportDao.class.getName(), new AssReportDaoImpl());//评估报告表
 			config.put(StandDao.class.getName(),new StandDaoImpl());//标准表
+			config.put(PreOrderDao.class.getName(), new PreOrderDaoImpl());//预约表
 			config.put(GoodsDao.class.getName(), new GoodsDaoImpl());//商品dao
 			config.put(MenuDao.class.getName(),new MenuDaoImpl());//菜单dao
 			config.put(LogDao.class.getName(),new LogDaoImpl());//日志dao

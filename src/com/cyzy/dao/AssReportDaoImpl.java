@@ -38,7 +38,7 @@ public class AssReportDaoImpl implements AssReportDao {
 				int assScore=rs.getInt("ASS_SCORE");
 				int customerid=rs.getInt("CUSTOMER_ID");
 				AssReport temp=new AssReport(assreportId,
-						assTime,standId,assScore,customerid	);
+						assTime,standId,assScore,customerid);
 				assRepostList.add(temp);
 			}
 		} catch (SQLException e) {

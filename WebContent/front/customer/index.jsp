@@ -22,7 +22,7 @@
             </div>
         </div>
         <ul class="content">
-             <li><a style="margin-top:300px;">我要预约</a></li>
+             <li><a style="margin-top:300px;" href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=myPreOrderList">我要预约</a></li>
              <li><a style="margin-top:450px;" href="${pageContext.request.contextPath}/AssReportServlet?assAction=myReportList">我的报告</a></li>
              <li><a style="margin-top:320px;" href="${pageContext.request.contextPath}/AreaServlet?areaAction=list">在线评估</a></li>
              <li><a style="margin-top:180px;" onclick="user()">*咨询师库</a></li>

@@ -1,11 +1,14 @@
 package com.cyzy.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cyzy.bean.User;
 
 public interface UserDao {//后台用户表
-    
+    //单个用户
+	public Map<String,Object> querySingUserByUserId(int userId);
+	
 	//登录
 	public User login(String userName,String password);
 	

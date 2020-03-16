@@ -213,4 +213,14 @@
     <servlet-name>AssReportServlet</servlet-name>
     <url-pattern>/AssReportServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PreOrderServlet</display-name>
+    <servlet-name>PreOrderServlet</servlet-name>
+    <servlet-class>com.cyzy.servlet.PreOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PreOrderServlet</servlet-name>
+    <url-pattern>/PreOrderServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

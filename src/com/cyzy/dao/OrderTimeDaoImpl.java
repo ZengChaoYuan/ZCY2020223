@@ -92,7 +92,7 @@ public class OrderTimeDaoImpl implements OrderTimeDao {
 			while(rs.next()) {
 				int ordertimeId=rs.getInt("ORDERTIME_ID");
 				int userid=rs.getInt("USER_ID");
-				String orderdate=rs.getString("ORDER_DATE");
+				String orderdate=rs.getString("ORDER_DATE").substring(0,10);
 				int orderHour=rs.getInt("ORDER_HOUR");
 				OrderTime temp=new OrderTime(ordertimeId,userid,orderdate,orderHour);
 				orderTimeList.add(temp);			
