@@ -379,4 +379,18 @@ public class UserDaoImpl implements UserDao {
 		return singUser;
 	}
 
+	@Override
+	public int updateBalance(User user) {
+		int count=0;
+		String sql="UPDATE T_USER SET BALANCE=? WHERE USER_ID=?";
+		Object [] params= {user.getBalance(),user.getUserId()};
+		try {
+			count=runner.update(sql,params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+	return count;
+	}
+
 }

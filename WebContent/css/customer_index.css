@@ -57,14 +57,14 @@ p {
     justify-content: flex-start;
 }
 .content>li{
-	width: 19%;
+	width: 24%;
 	height: 100%;
 	flex-grow: 1;
 	display:flex;
 }
 .content>li>a{
 	width: 80%;
-	height:200px;
+	height:300px;
 	margin: 0 auto;
 	border-radius: 50%;
 	display:flex;

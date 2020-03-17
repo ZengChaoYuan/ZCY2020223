@@ -66,10 +66,10 @@
 				     <c:if test="${user.deleteStatus==1}">
 				       
 				       <c:if test="${sessionScope.loginUser.userId!=user.userId}">
-				       <a  onclick="useStatus(${user.userId})">${user.useStatus==1?"禁用":"启用"  }</a>
-				     <a  onclick="deleteStatus(${user.userId})">${user.deleteStatus==1?"删除":"已删除" }</a>
+				       <a href="javascript:void(0)"  onclick="useStatus(${user.userId})">${user.useStatus==1?"禁用":"启用"  }</a>
+				     <a href="javascript:void(0)"  onclick="deleteStatus(${user.userId})">${user.deleteStatus==1?"删除":"已删除" }</a>
 				   	     </c:if>
-				     	 <a onclick="resetPassword(${user.userId})">重置密码</a>	
+				     	 <a href="javascript:void(0)" onclick="resetPassword(${user.userId})">重置密码</a>	
 				     	 </c:if>			
 					</td>
 					
@@ -178,6 +178,8 @@
 			})
 		}
 	}
+	
+	
     function pageMethod(pageNo) {
         document.getElementById("currentPageNum").value = pageNo;
         document.userform.submit();

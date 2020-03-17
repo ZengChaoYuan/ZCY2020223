@@ -6,6 +6,9 @@ import java.util.Map;
 import com.cyzy.bean.User;
 
 public interface UserDao {//后台用户表
+	//修改咨询师余额
+	public int updateBalance(User user);
+	
     //单个用户
 	public Map<String,Object> querySingUserByUserId(int userId);
 	

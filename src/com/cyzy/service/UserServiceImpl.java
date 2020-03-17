@@ -96,4 +96,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.querySingUserByUserId(userId);
 	}
 
+	@Override
+	public int updateBalance(User user) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.updateBalance(user);
+	}
+
 }

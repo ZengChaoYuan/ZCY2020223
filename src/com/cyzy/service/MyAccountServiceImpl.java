@@ -1,10 +1,12 @@
 package com.cyzy.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cyzy.bean.MyAccount;
 import com.cyzy.dao.MyAccountDao;
 import com.cyzy.util.DaoFactory;
+import com.cyzy.util.Page;
 
 
 
@@ -26,6 +28,22 @@ public class MyAccountServiceImpl implements MyAccountService {
 	public int addCustomerAccount(MyAccount myAccount) throws Exception {
 		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
 		return myAccountDao.addCustomerAccount(myAccount);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryCustomerAccount(int customerId) {
+		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
+		return myAccountDao.queryCustomerAccount(customerId);
+	}
+
+	@Override
+	public Page<Map<String, Object>> queryCustomerAccounts(MyAccount myAccount, int currentPageNum) {
+		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
+		int totalRecordsNum=myAccountDao.queryCustomerCount(myAccount);
+		Page<Map<String,Object>> page=new Page<Map<String,Object>>(currentPageNum,totalRecordsNum,5);
+		List<Map<String,Object>> customerCounts=myAccountDao.queryCustomerAccounts(myAccount, page.getStartIndex(),page.getEndIndex());
+		page.setRecords(customerCounts);
+		return page;
 	}
 
 	

@@ -12,15 +12,16 @@
 text-align: left;
 text-indent: 30px;
 }
-
 </style>
 </head>
 <body>
 <div class="wrapper">
 <div class="contentArea">
-
-<!--  <form class="list" action="${pageContext.request.contextPath}/TitleServlet?titleAction=countScope" method="post">
- -->
+<form class="topForm" name="myAccountform"
+				action="${pageContext.request.contextPath}/MyAccountServlet"	method="post">
+		<input type="hidden" name="accountAction" value="list">		
+		<input type="hidden" name="currentPageNum" id="currentPageNum" value="1">			
+</form>
  <div class="list">
 <table border="1" cellpadding="8" style="border-collapse: collapse;">
 <tr>
@@ -41,24 +42,37 @@ text-indent: 30px;
 						<th>金额(元)</th>
 					</tr>
 <c:choose>
-<c:when test="${not empty requestScope.myAccountList }">
-<c:forEach items="${requestScope.myAccountList }" var="myAccount">
+<c:when test="${not empty requestScope.page.records }">
+<c:forEach items="${requestScope.page.records }" var="myAccount">
   <tr>
-  <td>${myAccount.happenTime}</td>
-  <td>${myAccount.happenThing}</td>
+  <td>${myAccount.HAPPEN_TIME}</td>
+  <td>${myAccount.HAPPEN_THING}</td>
   <td>
-   <c:if test="${myAccount.userId==0}">
+   <c:if test="${myAccount.USER_ID==0}">
 				    ${sessionScope.loginCustomer.customerName}
 				     </c:if>
-   <c:if test="${myAccount.userId!=0}">
-				     ${myAccount.userId }(咨询师)
+   <c:if test="${myAccount.USER_ID!=0}">
+				     ${myAccount.USER_NAME }(咨询师)
 				     </c:if>
   </td>
-  <td>${myAccount.consumpType}</td>
-  <td>${myAccount.consumpMoney}</td>
+  <td>${myAccount.CONSUMP_TYPE}</td>
+  <td>${myAccount.CONSUMP_MONEY}</td>
   <tr>
   
 </c:forEach>
+<tr>
+								<td colspan="5" align="center">
+									共&nbsp;${page.totalRecordsNum}&nbsp;条记录,共&nbsp;${page.totalPageNum}&nbsp;页,
+									当前第&nbsp;${page.currentPageNum}&nbsp;页
+									<a href="javascript:void(0)" onclick="pageMethod(1)">首页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.prevPageNum})">上一页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.nextPageNum})">下一页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.totalPageNum})">尾页</a>
+								</td>
+							</tr>
 <tr>
 <td colspan="5"><a href="${pageContext.request.contextPath}/front/customer/index.jsp">返回</a> </td>
 </tr>
@@ -73,33 +87,14 @@ text-indent: 30px;
 </c:choose>
 </table> 
 </div>
-<!-- </form> -->
-
-
 </div>
 </div>
 </body>
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
-<!-- <script type="text/javascript">
-function consump(obj){
-	$.ajax({
-		url:"${pageContext.request.contextPath}/MyAccountServlet?accountAction=consumpMoney",
-		type:"post",
-		data:{"customerId":obj},
-		async:true,
-		dataType:"JSON",
-		success:function(data){
-			if(data.id==1){
-				window.alert(data.msg);
-				window.location.href="${pageContext.request.contextPath}/MyAccountServlet?accountAction=list";
-			}else if(data.id==2){
-				window.alert(data.msg);
-			}
-		},
-		error:function(data){
-			alert("出错啦!");
-		}
-	})
+<script type="text/javascript">
+function pageMethod(pageNo) {
+    document.getElementById("currentPageNum").value = pageNo;
+    document.myAccountform.submit();
 }
-</script> -->
+</script>
 </html>

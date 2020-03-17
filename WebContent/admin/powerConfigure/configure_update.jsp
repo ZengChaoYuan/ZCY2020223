@@ -101,8 +101,8 @@ $(document).ready(function(){
 			dataNodes+=nodes[i].menuId+","; //"1,3,4,5"
 		}
 		
-		alert(dataNodes);//打印选择的菜单
-		alert(${requestScope.role.roleId});//打印当前角色所拥有的ID
+		//alert(dataNodes);//打印选择的菜单
+		//alert(${requestScope.role.roleId});//打印当前角色所拥有的ID
 	    $.ajax({
 	    	url:"${pageContext.request.contextPath}/RoleServlet",
 			type:"post",

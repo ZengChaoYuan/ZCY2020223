@@ -37,12 +37,16 @@
 					<td>${myPreOrderList.AREA_NAME}</td>
 					<td>${myPreOrderList.NAME }</td>
 					<td>
+					<c:if test="${myPreOrderList.ORDER_STATUS!=6}">
 					<c:if test="${myPreOrderList.ORDER_STATUS==4}">
 					  <a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessConsulter&userId=${myPreOrderList.USER_ID}">评价</a>
 				     </c:if>
 				     &emsp;
 					<a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=preOrderDetail&orderStatus=${myPreOrderList.ORDER_STATUS}">查看详情</a>&emsp;
-					<a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=queryUserInfo&userId=${myPreOrderList.USER_ID}">查看咨询师</a></td>
+					<a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=queryUserInfo&userId=${myPreOrderList.USER_ID}">查看咨询师</a>
+					</c:if>
+					</td>
+					
 					<tr>
 					</c:forEach>
 					</c:when>

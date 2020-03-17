@@ -59,16 +59,20 @@
 				     <td>${customer.sex==1?"男":"女" }</td>
 				     <td>${customer.age }</td>
 				     <td>${customer.tel }</td>
-				     <td>${customer.useStatus==1?"启用":"禁用" }</td>
 				     <td>
-				      <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=updateUseStatus&customerId=${customer.customerId}">${customer.useStatus==1?"禁用":"启用" }</a>
-				      
-				    <!--  <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=updateDeleteStatus&customerId=${customer.customerId}">${customer.deleteStatus==1?"删除":"已删除" }</a>
-				     -->
-				    <!--  <a   customerId='${ customer.customerId}' onclick="deleteStatus(${customer.customerId})">${customer.deleteStatus==1?"删除":"已删除" }</a> -->
-				     <a  onclick="deleteStatus(${customer.customerId})">${customer.deleteStatus==1?"删除":"已删除" }</a>
-				     <a	href="${pageContext.request.contextPath}/CustomerServlet?customerAction=resetPassword&customerId=${customer.customerId}">重置密码</a>		
-				     						
+				     <c:if test="${customer.deleteStatus==1}">
+				     ${customer.useStatus==1?"启用":"禁用" }
+				     </c:if>
+				     <c:if test="${customer.deleteStatus==0}">
+				                已删除
+				     </c:if>
+				     </td>
+				     <td>
+				       <c:if test="${customer.deleteStatus==1}">
+				       <a href="javascript:void(0)"  onclick="useStatus(${customer.customerId})">${customer.useStatus==1?"禁用":"启用"}</a>
+				       <a href="javascript:void(0)"  onclick="deleteStatus(${customer.customerId})">${customer.deleteStatus==1?"删除":"已删除" }</a>
+				        <a href="javascript:void(0)" onclick="resetPassword(${customer.customerId})">重置密码</a>	
+				       </c:if>			
 					</td>
 				   </tr>
 				</c:forEach>
@@ -103,28 +107,78 @@
 </body>
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script>
-	function deleteStatus(obj){
-		if(confirm("确定要删除吗!")){
-			$.ajax({
-				url:"${pageContext.request.contextPath}/CustomerServlet?customerAction=updateDeleteStatus",
+function resetPassword(obj){
+	//重置密码
+	if(confirm("确定要重置密码吗!")){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/CustomerServlet?customerAction=resetPassword",
+			type:"post",
+			data:{"customerId":obj},
+			async:true,
+			dataType:"JSON",
+			success:function (data){
+				console.log(data);
+				if(data.id==1){
+                   window.alert(data.msg);
+                   window.location.href="${pageContext.request.contextPath}/CustomerServlet?customerAction=list";
+			     }else if(data.id==2){
+			    	 window.alert(data.msg);
+			     }
+			},	
+			error:function(data){
+				alert("出错了!!!");
+			}
+		})
+	}
+} 
+
+
+function deleteStatus(obj){
+	//删除和已删除状态
+	if(confirm("确定要删除吗!")){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/CustomerServlet?customerAction=updateDeleteStatus",
+			type:"post",
+			data:{"customerId":obj},
+			async:true,
+			dataType:"JSON",
+			success:function (data){
+				console.log(data);
+				if(data.id==1){
+					window.alert(data.msg);
+					window.location.href="${pageContext.request.contextPath}/CustomerServlet?customerAction=list";
+				}else if(data.id==2||data.id==3){
+					window.alert(data.msg);
+				}
+			},
+			error:function(data){
+				alert("出错了!!!");
+			}
+		})
+	}
+}
+
+	function useStatus(obj){
+		//启用/禁用、恢复/锁定
+    	if(confirm("确定要修改吗!")){
+    		$.ajax({
+				url:"${pageContext.request.contextPath}/CustomerServlet?customerAction=updateUseStatus",
 				type:"post",
 				data:{"customerId":obj},
 				async:true,
 				dataType:"JSON",
 				success:function (data){
 					console.log(data);
-					if(data.id==1){
-						window.alert(data.msg);
+					if(data.id==1||data.id==2){
+                       window.alert(data.msg);
 						window.location.href="${pageContext.request.contextPath}/CustomerServlet?customerAction=list";
-					}else if(data.id==2||data.id==3){
-						window.alert(data.msg);
-					}
-				},
+				     }
+				},	
 				error:function(data){
 					alert("出错了!!!");
 				}
 			})
-		}
+    	}
 	}
     function pageMethod(pageNo) {
         document.getElementById("currentPageNum").value = pageNo;

@@ -7,6 +7,9 @@ import com.cyzy.bean.User;
 import com.cyzy.util.Page;
 
 public interface UserService {
+	//修改咨询师余额
+	public int updateBalance(User user);
+	
 	//单个用户
 	public Map<String,Object> querySingUserByUserId(int userId);
 	

@@ -134,7 +134,7 @@ public class UserServlet extends HttpServlet {
 			if (result > 0) {
 				JsonMessage msg = new JsonMessage();
 				msg.setId(1);
-				msg.setMsg("修改成功!");
+				msg.setMsg("禁用成功!");
 				String json = JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;
@@ -145,7 +145,7 @@ public class UserServlet extends HttpServlet {
 			if (result > 0) {
 				JsonMessage msg = new JsonMessage();
 				msg.setId(2);
-				msg.setMsg("修改成功!");
+				msg.setMsg("启用成功!");
 				String json = JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;

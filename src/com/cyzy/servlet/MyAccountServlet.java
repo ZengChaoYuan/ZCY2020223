@@ -3,6 +3,7 @@ package com.cyzy.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,7 @@ import com.cyzy.bean.MyAccount;
 import com.cyzy.bean.User;
 import com.cyzy.service.CustomerService;
 import com.cyzy.service.MyAccountService;
+import com.cyzy.util.Page;
 import com.cyzy.util.ServiceFactory;
 
 
@@ -63,10 +65,17 @@ public class MyAccountServlet extends HttpServlet {
 			response.setContentType("text/html");
 			Customer loginCustomer=(Customer)request.getSession().getAttribute("loginCustomer");
 			int customerId=loginCustomer.getCustomerId();
+			MyAccount myAccount=new MyAccount();
+			myAccount.setCustomerId(customerId);
+			// 当前页码
+			String currentPageNumStr = request.getParameter("currentPageNum");
+			int currentPageNum = (currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
+            
 			MyAccountService myAccountService=(MyAccountService)ServiceFactory.getServiceImpl(MyAccountService.class.getName());
-			List<MyAccount> myAccountList=myAccountService.queryMyAccount(customerId);
-			request.setAttribute("myAccountList", myAccountList);
+			Page<Map<String,Object>> page =myAccountService.queryCustomerAccounts(myAccount, currentPageNum);
+			request.setAttribute("page", page);
 			request.getRequestDispatcher("/front/customer/myAccount.jsp").forward(request, response);
+		
 		}
 	//客户充值
 	private void consumpMoney(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

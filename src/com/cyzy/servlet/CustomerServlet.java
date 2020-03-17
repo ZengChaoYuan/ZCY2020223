@@ -84,7 +84,19 @@ public class CustomerServlet extends HttpServlet {
 		int result=customerService.resetPassword(customer);
 
 		if(result>0) {
-			customerList(request, response);
+			JsonMessage msg=new JsonMessage();
+			msg.setId(1);
+			msg.setMsg("密码重置成功!");
+			String json=JSONObject.toJSONString(msg);
+			response.getWriter().println(json);
+			return;
+		}else {
+			JsonMessage msg=new JsonMessage();
+			msg.setId(2);
+			msg.setMsg("密码重置失败!");
+			String json=JSONObject.toJSONString(msg);
+			response.getWriter().println(json);
+			return;
 		}
 	}
 	private void updateDeleteStatus(HttpServletRequest request, HttpServletResponse response)
@@ -95,9 +107,7 @@ public class CustomerServlet extends HttpServlet {
 		CustomerService customerService = (CustomerService) ServiceFactory
 				.getServiceImpl(CustomerService.class.getName());
 		Customer customer = customerService.getCustomerById(customerId);
-		System.out.println(customer);
 		if (customer.getDeleteStatus() == 1) {
-
 			customer.setDeleteStatus(0);
 			int result = customerService.updateDeleteStatus(customer);
 
@@ -139,14 +149,24 @@ public class CustomerServlet extends HttpServlet {
 			customer.setUseStatus(2);
 			int result = customerService.updateUseStatus(customer);
 			if (result > 0) {
-				customerList(request, response);
+				JsonMessage msg = new JsonMessage();
+				msg.setId(1);
+				msg.setMsg("禁用成功!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
 			}
 
 		} else if (customer.getUseStatus() == 2) {
 			customer.setUseStatus(1);
 			int result = customerService.updateUseStatus(customer);
 			if (result > 0) {
-				customerList(request, response);
+				JsonMessage msg = new JsonMessage();
+				msg.setId(2);
+				msg.setMsg("启用成功!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
 			}
 		}
 	}

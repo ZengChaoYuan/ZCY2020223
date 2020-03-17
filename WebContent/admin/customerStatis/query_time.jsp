@@ -63,7 +63,6 @@
 			},
 			yAxis : {},
 			series : [ {
-				name : '销量',
 				type : 'bar',
 				data : datas,
 
