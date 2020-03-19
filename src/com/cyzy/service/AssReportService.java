@@ -13,6 +13,8 @@ public interface AssReportService {
 	  public Page<Map<String,Object>> querymyReports(AssReport assReport, int currentPageNum);
 	  //管理员查看用户评估列表
 	  public List<Map<String,Object>> queryCustomerReport(AssReport assReport);
+	  //分页
+	  public Page<Map<String,Object>> queryAllReports(int currentPageNum);
 	  
 	  //管理员查看用户的评测报告
 	  public Map<String,Object> queryCustomerAss(int assReportId);

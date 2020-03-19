@@ -116,4 +116,41 @@ public class AssReportDaoImpl implements AssReportDao {
 		return myReports;
 	}
 
+	@Override
+	public int AllReportCounts() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		String sql="SELECT COUNT(0) FROM T_ASSREPORT ";
+		int count=0;
+		try {
+			conn = DBUtil.getConnection();
+			ps=conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		return count;
+	}
+
+	@Override
+	public List<Map<String, Object>> queryAllReports(int startIndex, int endIndex) {
+	    String sql="SELECT * FROM (SELECT A.ASSREPORT_ID,A.ASS_TIME,B.CUSTOMER_NAME,D.AREA_NAME,A.ASS_SCORE,ROWNUM AS RN FROM T_ASSREPORT A \r\n" + 
+	    		"         LEFT JOIN T_CUSTOMER B ON A.CUSTOMER_ID=B.CUSTOMER_ID\r\n" + 
+	    		"        LEFT JOIN T_STAND C ON A.STAND_ID=C.STAND_ID\r\n" + 
+	    		"         LEFT JOIN T_AREA D ON C.AREA_ID=D.AREA_ID AND ROWNUM<='"+endIndex+"' ORDER BY A.ASS_TIME DESC ) E WHERE E.RN>="+startIndex;
+	    List<Map<String, Object>> allReports=null;
+		try {
+			allReports=runner.query(sql, new MapListHandler());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allReports;
+	}
+
 }

@@ -30,7 +30,6 @@
           <option value="1">启用</option>				
           </select> -->
           </td>
-          <td><a href="javascript:void(0);" target="adminMainContent">新增 </a></td>
 		  </tr>
 		  <tr><td colspan="5"><input type="submit" class="submit" value="提交"></td></tr>
 		</table>		

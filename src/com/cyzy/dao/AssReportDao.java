@@ -12,6 +12,10 @@ public interface AssReportDao {
   
   //管理员查看用户评估列表
   public List<Map<String,Object>> queryCustomerReport(AssReport assReport);
+  //管理员查看用户评估列表,分页
+  public int AllReportCounts();  
+  public List<Map<String,Object>> queryAllReports(int startIndex,int endIndex);
+  
   
   //管理员查看用户的评测报告
   public Map<String,Object> queryCustomerAss(int assReportId);

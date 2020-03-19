@@ -38,4 +38,14 @@ public class AssReportServiceImpl implements AssReportService {
 		return page;
 	}
 
+	@Override
+	public Page<Map<String, Object>> queryAllReports(int currentPageNum) {
+		AssReportDao assReportDao=(AssReportDao)DaoFactory.getDaoImpl(AssReportDao.class.getName());
+		int totalRecordsNum=assReportDao.AllReportCounts();
+		Page<Map<String,Object>> page=new Page<Map<String,Object>>(currentPageNum,totalRecordsNum,5);
+		List<Map<String,Object>> allReports=assReportDao.queryAllReports(page.getStartIndex(),page.getEndIndex());
+		page.setRecords(allReports);
+		return page;
+	}
+
 }

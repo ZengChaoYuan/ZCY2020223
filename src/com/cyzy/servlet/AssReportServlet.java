@@ -46,6 +46,7 @@ public class AssReportServlet extends HttpServlet {
 			// 报告结果
 			reportResult(request, response);
 		} else if (assAction != null && assAction.equals("userQueryReport")) {
+			// 管理员查看所有客户的报告列表
 			userQueryReport(request, response);
 		} else if (assAction != null && assAction.equals("userQueryAss")) {
 			userQueryAss(request, response);
@@ -68,11 +69,14 @@ public class AssReportServlet extends HttpServlet {
 	private void userQueryReport(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-		AssReport assReport = new AssReport();
+		// 当前页码
+		String currentPageNumStr = request.getParameter("currentPageNum");
+		int currentPageNum = (currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
 		AssReportService assReportService = (AssReportService) ServiceFactory
 				.getServiceImpl(AssReportService.class.getName());
-		List<Map<String, Object>> customerReportList = assReportService.queryCustomerReport(assReport);
-		request.setAttribute("customerReportList", customerReportList);
+		Page<Map<String, Object>> page =assReportService.queryAllReports(currentPageNum);
+		//List<Map<String, Object>> customerReportList = assReportService.queryCustomerReport(assReport);
+		request.setAttribute("page", page);
 		request.getRequestDispatcher("/admin/adminOnlineAssess/customer_asslist.jsp").forward(request, response);
 	}
 
