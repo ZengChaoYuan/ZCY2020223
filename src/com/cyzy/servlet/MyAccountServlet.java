@@ -17,6 +17,7 @@ import com.cyzy.bean.MyAccount;
 import com.cyzy.bean.User;
 import com.cyzy.service.CustomerService;
 import com.cyzy.service.MyAccountService;
+import com.cyzy.service.UserService;
 import com.cyzy.util.Page;
 import com.cyzy.util.ServiceFactory;
 
@@ -57,6 +58,10 @@ public class MyAccountServlet extends HttpServlet {
 		response.setContentType("text/html");
 		User user = (User) request.getSession().getAttribute("loginUser");
 		int userId = user.getUserId();
+		//咨询师的余额
+		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
+		User userInfo=userService.getUserById(userId);
+		int balance=userInfo.getBalance();
 		MyAccount myAccount = new MyAccount();
 		myAccount.setUserId(userId);
 		// 当前页码
@@ -67,6 +72,7 @@ public class MyAccountServlet extends HttpServlet {
 				.getServiceImpl(MyAccountService.class.getName());
 		Page<Map<String, Object>> page =myAccountService.queryUserFunds(myAccount, currentPageNum);
 		request.setAttribute("page", page);
+		request.setAttribute("balance", balance);
 		request.getRequestDispatcher("/admin/fundAccount/fund_account.jsp").forward(request, response);
 	}
 
@@ -76,6 +82,11 @@ public class MyAccountServlet extends HttpServlet {
 		response.setContentType("text/html");
 		Customer loginCustomer = (Customer) request.getSession().getAttribute("loginCustomer");
 		int customerId = loginCustomer.getCustomerId();
+		//客户的余额
+		CustomerService customerService=(CustomerService)ServiceFactory.getServiceImpl(CustomerService.class.getName());
+		Customer customerInfo=customerService.getCustomerById(customerId);
+		//客户余额
+		int balance=customerInfo.getBalance();
 		MyAccount myAccount = new MyAccount();
 		myAccount.setCustomerId(customerId);
 		// 当前页码
@@ -86,6 +97,7 @@ public class MyAccountServlet extends HttpServlet {
 				.getServiceImpl(MyAccountService.class.getName());
 		Page<Map<String, Object>> page = myAccountService.queryCustomerAccounts(myAccount, currentPageNum);
 		request.setAttribute("page", page);
+		request.setAttribute("balance", balance);
 		request.getRequestDispatcher("/front/customer/myAccount.jsp").forward(request, response);
 	}
 

@@ -28,7 +28,7 @@ text-indent: 30px;
 <th colspan="5">我的账户</th>
 </tr>
 <tr>
-<th  class="left" colspan="4">余额: ${sessionScope.loginCustomer.balance}</th>
+<th  class="left" colspan="4">余额: ${requestScope.balance}</th>
 <th><a href="${pageContext.request.contextPath}/front/customer/consump_money.jsp">充值</a> </th>
 </tr>
 <tr>

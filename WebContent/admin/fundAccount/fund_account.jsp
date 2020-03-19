@@ -28,7 +28,7 @@ text-indent: 30px;
  <th colspan="4">资金账户</th>
 </tr>
 <tr>
-<th  class="left" colspan="4">余额: ${sessionScope.loginUser.balance}</th>
+<th  class="left" colspan="4">余额: ${requestScope.balance}</th>
 </tr>
 <tr>
 <th  class="left" colspan="4">业务收入情况：</th>
