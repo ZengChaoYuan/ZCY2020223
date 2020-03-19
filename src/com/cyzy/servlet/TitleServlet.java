@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cyzy.bean.Area;
 import com.cyzy.bean.Item;
 import com.cyzy.bean.JsonMessage;
 import com.cyzy.bean.Title;
+import com.cyzy.service.AreaService;
 import com.cyzy.service.ItemService;
 import com.cyzy.service.TitleService;
 import com.cyzy.util.ServiceFactory;
@@ -137,9 +139,12 @@ public class TitleServlet extends HttpServlet {
 	private void queryTitleList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-		
+		 AreaService areaService=(AreaService)ServiceFactory.getServiceImpl(AreaService.class.getName());
+		 List<Area>areaList= areaService.queryArea();
+		 request.setAttribute("areaList", areaList);
 		//题目的集合:传领域id进去查找题目的集合
-		int areaId=1;
+		//int areaId=Integer.parseInt(request.getParameter("areaId"));
+		 int areaId=1;
 		TitleService titleService=(TitleService)ServiceFactory.getServiceImpl(TitleService.class.getName());
 		//查找该领域下面所有的题目
 		List<Title> titleList =titleService.queryTitles(areaId);

@@ -12,9 +12,21 @@
 <div class="wrapper">
 <div class="contentArea">
 <div class="list">
-<table border="1" cellpadding="15" style="border-collapse: collapse;">
+<table border="1" cellpadding="8" style="border-collapse: collapse;">
 <tr>
-<th colspan="2">题目列表</th>
+<th colspan="3">题库管理</th>
+<tr>
+<tr>
+<th colspan="3">
+领域: 
+<select name="areaId">
+<c:forEach items="${requestScope.areaList }" var="area">
+<option value="${area.areaId }">${area.areaName}</option>
+</c:forEach>
+</select>
+</th>
+<tr>
+<th colspan="2">题目预览</th>
 <th><a href="${pageContext.request.contextPath}/admin/title/title_add.jsp">新增</a></th>
 </tr>
                      <tr>
@@ -29,12 +41,12 @@
   <td>${title.titleId}.${title.titleName}</td>
   <td>
   <c:forEach items="${title.items }" var="item">
-      <input type="radio">${item.itemName }
+      <input type="radio" disabled="disabled">${item.itemName }
   </c:forEach>
   </td>
    <td>
     <a href="${pageContext.request.contextPath}/TitleServlet?titleAction=updateBefore&titleId=${title.titleId}">修改</a>
-    <a onclick="deleteItem(${title.titleId})">删除</a>
+    <a href="javascript:void(0)" onclick="deleteItem(${title.titleId})">删除</a>
   </td>
  </tr>
 </c:forEach>
@@ -66,9 +78,7 @@
 </body>
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-function updateItem(){
-	alert("修改");
-}
+
 function deleteItem(obj){
 	if(confirm("确定要删除吗?")){
 		$.ajax({

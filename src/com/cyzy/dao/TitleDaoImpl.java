@@ -196,4 +196,56 @@ public class TitleDaoImpl implements TitleDao {
 			return count;
 	}
 
+	@Override
+	public int queryTitleCount(Title title) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		String sql="SELECT COUNT(0) FROM T_TITLE WHERE AREA_ID=?";
+		int count=0;
+		try {
+			conn = DBUtil.getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, title.getAreaId());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		
+		return count;
+	}
+
+	@Override
+	public List<Title> queryTitleList(Title title, int startIndex, int endIndex) {
+		PreparedStatement ps=null;
+		ResultSet rs = null;
+		Connection conn=DBUtil.getConnection();
+		List<Title> titleList=new ArrayList<Title>();
+		String sql="SELECT * FROM "
+		+ " (SELECT A.TITLE_ID,A.AREA_ID, A.TITLE_NAME,ROWNUM AS RN FROM T_TITLE A WHERE A.AREA_ID=?  AND ROWNUM<='"+endIndex+"' ) B WHERE B.RN>="+startIndex;
+		
+		try {
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, title.getAreaId());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				Title temp=new Title();
+				temp.setTitleId(rs.getInt("TITLE_ID"));
+				temp.setAreaId(rs.getInt("AREA_ID"));
+				temp.setTitleName(rs.getString("TITLE_NAME"));
+				titleList.add(temp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		return titleList;
+	}
+
 }

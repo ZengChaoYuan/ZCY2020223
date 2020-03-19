@@ -36,6 +36,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 		return myAccountDao.queryCustomerAccount(customerId);
 	}
 
+	//¿Í»§
 	@Override
 	public Page<Map<String, Object>> queryCustomerAccounts(MyAccount myAccount, int currentPageNum) {
 		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
@@ -45,6 +46,24 @@ public class MyAccountServiceImpl implements MyAccountService {
 		page.setRecords(customerCounts);
 		return page;
 	}
+	//×ÉÑ¯Ê¦
+	@Override
+	public Page<Map<String, Object>> queryUserFunds(MyAccount myAccount, int currentPageNum) {
+		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
+		int totalRecordsNum=myAccountDao.queryUserCount(myAccount);
+		Page<Map<String,Object>> page=new Page<Map<String,Object>>(currentPageNum,totalRecordsNum,5);
+		List<Map<String,Object>> userFunds=myAccountDao.queryUserFunds(myAccount, page.getStartIndex(),page.getEndIndex());
+		page.setRecords(userFunds);
+		return page;
+	}
+
+	@Override
+	public List<Map<String, Object>> queryUserFund(int userId) {
+		MyAccountDao myAccountDao=(MyAccountDao)DaoFactory.getDaoImpl(MyAccountDao.class.getName());
+		return myAccountDao.queryUserFund(userId);
+	}
+
+	
 
 	
 

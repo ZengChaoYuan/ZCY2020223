@@ -12,7 +12,7 @@
  
    <h1 align="center">在线评估</h1>
       <p style="text-align: center;">领域:
-      <select name="areaId">
+      <select name="areaId" id="areaId">
 <c:forEach items="${requestScope.areaList }" var="area">
 <option value="${area.areaId }">${area.areaName}</option>
 </c:forEach>

@@ -3,6 +3,9 @@ package com.cyzy.service;
 import java.util.List;
 import java.util.Map;
 
+import com.cyzy.bean.LogInf;
+import com.cyzy.bean.OrderCount;
+import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
 import com.cyzy.util.Page;
 
@@ -44,4 +47,9 @@ public interface UserService {
 	// 修改
 	public int updateUser(User user);
 
+	// 按咨询师用户查询日志:开始时间和结束时间
+	public List<OrderCount> queryAllOrderCountByUser(String startTime, String endTime);
+	
+	//咨询师确认预约后，把数据插入到预约数量表中
+	public int addOrderCount(PreOrderCount preOrderCount) throws Exception;
 }

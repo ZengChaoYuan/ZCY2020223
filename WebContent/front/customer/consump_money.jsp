@@ -23,7 +23,7 @@
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 function consumpMoney(obj){
-	alert(obj);
+	//alert(obj);
 	if($("#consumpMoney").val()==0){
 		alert("请选择金额");
 		return;

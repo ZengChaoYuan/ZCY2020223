@@ -2,7 +2,8 @@ package com.cyzy.dao;
 
 import java.util.List;
 import java.util.Map;
-
+import com.cyzy.bean.OrderCount;
+import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
 
 public interface UserDao {//后台用户表
@@ -33,9 +34,6 @@ public interface UserDao {//后台用户表
 	//初始化客户密码
 	public int resetPassword(User user);
 
-	
-	
-	
 	public int addUser(User user) throws Exception;
 	
 	// 查询, 查询有多少用户已经注册
@@ -49,5 +47,12 @@ public interface UserDao {//后台用户表
 
 	//没用上
 	public int createUserId();
+	
+	// 按咨询师用户查询日志:开始时间和结束时间
+	public List<OrderCount> queryAllOrderCountByUser(String startTime, String endTime);
+	
+	//咨询师确认预约后，把数据插入到预约数量表中
+	public int addOrderCount(PreOrderCount preOrderCount) throws Exception;
+	
 	
 }

@@ -32,7 +32,6 @@
     <input type="checkbox" name="hours" id="hours" value="21">21
   <input type="checkbox" name="hours" id="hours" value="22">22
   <input type="checkbox" name="hours" id="hours" value="23">23
-  <input type="checkbox" name="hours" id="hours" value="24">24<br>
   <input type="button" onclick="save()" value="保存">
   
 </body>

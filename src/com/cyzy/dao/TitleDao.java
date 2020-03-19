@@ -5,6 +5,7 @@ import java.util.List;
 import com.cyzy.bean.Title;
 
 public interface TitleDao {
+	
   //通过领域ID查询所有的菜单
   public List<Title> queryTitles(int areaId);
   //通过题目ID查询所有的菜单
@@ -26,4 +27,7 @@ public interface TitleDao {
   
   public int updateTitle(Title title);
   
+  //题目列表分页
+  public int queryTitleCount(Title title);
+  public List<Title> queryTitleList(Title title,int startIndex,int endIndex);
 }

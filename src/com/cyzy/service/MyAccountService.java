@@ -18,6 +18,8 @@ public interface MyAccountService {
 	  
 	  //咨询师查看自己的账户
 	  public List<MyAccount> queryfundAccount(int userId);
-	  
-	  
+	  //咨询师查看自己的账户,Map
+	  public List<Map<String,Object>> queryUserFund(int userId);
+	  //咨询师查看自己的账户,分页
+	  public Page<Map<String,Object>> queryUserFunds(MyAccount myAccount, int currentPageNum);
 }

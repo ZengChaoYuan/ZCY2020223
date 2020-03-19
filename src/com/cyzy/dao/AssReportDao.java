@@ -2,13 +2,13 @@ package com.cyzy.dao;
 
 import java.util.List;
 import java.util.Map;
-
 import com.cyzy.bean.AssReport;
-
-
 public interface AssReportDao {
   //客户（我的报告列表）
   public List<AssReport> querymyReport(int customerId);
+  //客户查看自己的报告列表,分页
+  public int MyReportCounts(AssReport assReport);  
+  public List<Map<String,Object>> queryMyReports(AssReport assReport,int startIndex,int endIndex);
   
   //管理员查看用户评估列表
   public List<Map<String,Object>> queryCustomerReport(AssReport assReport);

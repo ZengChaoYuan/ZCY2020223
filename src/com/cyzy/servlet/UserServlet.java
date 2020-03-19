@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cyzy.bean.JsonMessage;
+import com.cyzy.bean.OrderCount;
 import com.cyzy.bean.Param;
 import com.cyzy.bean.Role;
 import com.cyzy.bean.User;
@@ -65,8 +66,25 @@ public class UserServlet extends HttpServlet {
 			updateUser(request, response);
 		} else if (userAction != null && userAction.equals("detail")) {
 			userDetail(request, response);
+		}else if (userAction != null && userAction.equals("queryOrderCount")) {
+			//查看预约量
+			queryOrderCount(request, response);
 		}
 
+	}
+	
+	//查看预约量
+	private void queryOrderCount(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 防止乱码
+		response.setContentType("text/html");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
+		List<OrderCount>orderCountList=userService.queryAllOrderCountByUser(startTime, endTime);
+		request.setAttribute("orderCountList", orderCountList);
+		request.getRequestDispatcher("/admin/orderCount/orderCount_list.jsp").forward(request, response);
+		
 	}
 
 	private void queryUserList(HttpServletRequest request, HttpServletResponse response)
@@ -282,7 +300,7 @@ public class UserServlet extends HttpServlet {
 			int roleId = Integer.parseInt(request.getParameter("roleId"));
 
 			User user = new User(0, userName, password, roleId, roleId, realName, sex, roleId, birthday, birthday,
-					roleId, birthday);
+					roleId, birthday, birthday);
 
 			UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 			int result = 0;

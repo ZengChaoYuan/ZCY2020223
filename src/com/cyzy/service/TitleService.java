@@ -3,6 +3,8 @@ package com.cyzy.service;
 import java.util.List;
 
 import com.cyzy.bean.Title;
+import com.cyzy.bean.User;
+import com.cyzy.util.Page;
 
 public interface TitleService {
 	  //增加题目
@@ -27,4 +29,7 @@ public interface TitleService {
 	  
 	  //修改
 	  public int updateTitle(Title title);
+	  
+	  // 分页查询不带条件
+	  //public Page<Title> queryTitles(Title title, int currentPageNum);
 }

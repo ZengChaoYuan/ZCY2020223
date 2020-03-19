@@ -4,6 +4,9 @@ package com.cyzy.service;
 import java.util.List;
 import java.util.Map;
 
+import com.cyzy.bean.LogInf;
+import com.cyzy.bean.OrderCount;
+import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
 import com.cyzy.dao.UserDao;
 
@@ -101,5 +104,18 @@ public class UserServiceImpl implements UserService {
 		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
 		return userDao.updateBalance(user);
 	}
+
+	@Override
+	public List<OrderCount> queryAllOrderCountByUser(String startTime, String endTime) {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.queryAllOrderCountByUser(startTime, endTime);
+	}
+
+	@Override
+	public int addOrderCount(PreOrderCount preOrderCount) throws Exception {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.addOrderCount(preOrderCount);
+	}
+
 
 }

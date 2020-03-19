@@ -17,6 +17,11 @@ text-indent: 30px;
 <body>
 <div class="wrapper">
 <div class="contentArea">
+<form class="topForm" name="userFundform"
+				action="${pageContext.request.contextPath}/MyAccountServlet"	method="post">
+		<input type="hidden" name="accountAction" value="fundList">		
+		<input type="hidden" name="currentPageNum" id="currentPageNum" value="1">			
+</form>
  <div class="list">
  <table border="1" cellpadding="8" style="border-collapse: collapse;">
  <tr>
@@ -35,15 +40,28 @@ text-indent: 30px;
 						<th>金额(元)</th>
 					</tr>
 <c:choose>
-	<c:when test="${not empty requestScope.fundList }">
-	<c:forEach items="${requestScope.fundList }" var="fund">
+	<c:when test="${not empty requestScope.page.records}">
+	<c:forEach items="${requestScope.page.records }" var="fund">
 	<tr>
-	<td>${fund.happenTime }</td>
-	<td>${fund.customerId }客户</td>
-	<td>${fund.happenThing }</td>
-	<td>${fund.consumpMoney }</td>
+	<td>${fund.HAPPEN_TIME }</td>
+	<td>${fund.CUSTOMER_NAME }客户</td>
+	<td>${fund.HAPPEN_THING }</td>
+	<td>${fund.CONSUMP_MONEY }</td>
 	</tr>
 	</c:forEach>
+	<tr>
+								<td colspan="4" align="center">
+									共&nbsp;${page.totalRecordsNum}&nbsp;条记录,共&nbsp;${page.totalPageNum}&nbsp;页,
+									当前第&nbsp;${page.currentPageNum}&nbsp;页
+									<a href="javascript:void(0)" onclick="pageMethod(1)">首页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.prevPageNum})">上一页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.nextPageNum})">下一页</a> <a
+									href="javascript:void(0)"
+									onclick="pageMethod(${page.totalPageNum})">尾页</a>
+								</td>
+							</tr>
 	</c:when>
 	<c:otherwise>
 		<tr>
@@ -59,4 +77,11 @@ text-indent: 30px;
 </div>
 </div>
 </body>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+function pageMethod(pageNo) {
+    document.getElementById("currentPageNum").value = pageNo;
+    document.userFundform.submit();
+}
+</script>
 </html>

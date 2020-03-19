@@ -3,8 +3,10 @@ package com.cyzy.service;
 import java.util.List;
 
 import com.cyzy.bean.Title;
+import com.cyzy.bean.User;
 import com.cyzy.dao.TitleDao;
 import com.cyzy.util.DaoFactory;
+import com.cyzy.util.Page;
 
 public class TitleServiceImpl implements TitleService {
 
@@ -55,5 +57,15 @@ public class TitleServiceImpl implements TitleService {
 		TitleDao titleDao=(TitleDao)DaoFactory.getDaoImpl(TitleDao.class.getName());
 		return titleDao.updateTitle(title);
 	}
+
+//	@Override
+//	public Page<Title> queryTitles(Title title, int currentPageNum) {
+//		TitleDao titleDao=(TitleDao)DaoFactory.getDaoImpl(TitleDao.class.getName());
+//		int totalRecordsNum=titleDao.queryTitleCount(title);
+//		Page<User> page=new Page<User>(currentPageNum,totalRecordsNum,5);
+//		List<Title> titleList=titleDao.queryTitleList(title, page.getStartIndex(),page.getEndIndex());
+//		page.setRecords(titleList);
+//		return titleList;
+//	}
 
 }

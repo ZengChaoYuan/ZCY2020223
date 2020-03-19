@@ -12,6 +12,9 @@ import java.util.Map;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
 
+import com.cyzy.bean.LogInf;
+import com.cyzy.bean.OrderCount;
+import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
 import com.cyzy.util.DBUtil;
 import com.cyzy.util.JDBCUtil;
@@ -25,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 	    User user=null;
-		String sql="SELECT USER_ID,USER_NAME,PASSWORD,USE_STATUS,DELETE_STATUS,PROFESSOR,ROLE_ID,BALANCE,SCHOOL,INTRO,PRE_EXPENSE,REAL_NAME FROM T_USER "
+		String sql="SELECT USER_ID,USER_NAME,PASSWORD,USE_STATUS,DELETE_STATUS,PROFESSOR,ROLE_ID,BALANCE,SCHOOL,INTRO,PRE_EXPENSE,REAL_NAME,PROFESS_BACK FROM T_USER "
 				+ " WHERE USER_NAME= ? AND PASSWORD= ? ";
 		
 		try {
@@ -47,8 +50,8 @@ public class UserDaoImpl implements UserDao {
 			    String intro=rs.getString("INTRO");
 			    int preExpense=rs.getInt("PRE_EXPENSE");
 			    String realName=rs.getString("REAL_NAME");
-			    
-			    user=new User(userId,username,passWord,useStatus, deleteStatus, professor,roleId,balance, school,intro, preExpense,realName);
+			    String professBack=rs.getString("PROFESS_BACK");
+			    user=new User(userId,username,passWord,useStatus, deleteStatus, professor,roleId,balance, school,intro, preExpense,realName, professBack);
 			   
 			}
 			
@@ -391,6 +394,43 @@ public class UserDaoImpl implements UserDao {
 		}
 	
 	return count;
+	}
+
+	@Override
+	public List<OrderCount> queryAllOrderCountByUser(String startTime, String endTime) {
+		Statement st=null;
+		ResultSet rs = null;
+		Connection conn = null;
+		List<OrderCount> allOrderCountList=new ArrayList<OrderCount>();
+		String sql=" SELECT USER_NAME,COUNT(*) AS COUNT FROM T_ORDER_COUNT WHERE TO_CHAR(COUNT_TIME,'YYYY-MM-DD') >='"+startTime+"' \r\n" + 
+				" AND TO_CHAR(COUNT_TIME,'YYYY-MM-DD')<='"+endTime+"'  GROUP BY USER_NAME";
+		
+		try {
+			conn = DBUtil.getConnection();
+			st= conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				String userName=rs.getString("USER_NAME");
+				int count=rs.getInt("COUNT");
+				OrderCount orderCount=new OrderCount(userName,count);
+				allOrderCountList.add(orderCount);				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, st, rs);
+		}
+		
+		return allOrderCountList;
+	}
+
+	@Override
+	public int addOrderCount(PreOrderCount preOrderCount) throws Exception {
+		int result=0;
+		String sql="INSERT INTO T_ORDER_COUNT VALUES(SEQ_T_ORDER_COUNT.NEXTVAL, '×ÉÑ¯Ô¤Ô¼', ?, SYSDATE)";
+		Object []params= {preOrderCount.getUserName()};
+		result=runner.update(sql,params);
+		return result;
 	}
 
 }

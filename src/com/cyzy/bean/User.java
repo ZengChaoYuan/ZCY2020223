@@ -13,9 +13,10 @@ public class User {// 后台用户表
 	private String intro;
 	private int preExpense;
 	private String realName;
-
+	private String professBack;
+	
 	public User(int userId, String userName, String password, int useStatus, int deleteStatus, String professor,
-			int roleId, int balance, String school, String intro, int preExpense, String realName) {
+			int roleId, int balance, String school, String intro, int preExpense, String realName, String professBack) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -29,6 +30,7 @@ public class User {// 后台用户表
 		this.intro = intro;
 		this.preExpense = preExpense;
 		this.realName = realName;
+		this.professBack = professBack;
 	}
 
 	public User() {
@@ -131,4 +133,12 @@ public class User {// 后台用户表
 		this.realName = realName;
 	}
 
+	public String getProfessBack() {
+		return professBack;
+	}
+
+	public void setProfessBack(String professBack) {
+		this.professBack = professBack;
+	}
+	
 }

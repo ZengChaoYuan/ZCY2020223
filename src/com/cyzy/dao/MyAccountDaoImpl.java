@@ -67,6 +67,21 @@ public class MyAccountDaoImpl implements MyAccountDao {
 	}
 	
 	@Override
+	public List<Map<String, Object>> queryUserFund(int userId) {
+		String sql="SELECT A.MYACCOUNT_ID, A.HAPPEN_TIME,A.HAPPEN_THING,A.CUSTOMER_ID,A.USER_ID,A.CONSUMP_TYPE,A.CONSUMP_MONEY,B.CUSTOMER_NAME FROM T_MYACCOUNT A \r\n" + 
+				" LEFT JOIN T_CUSTOMER B ON A.CUSTOMER_ID=B.CUSTOMER_ID WHERE USER_ID=?";
+		List<Map<String,Object>> queryUserFund=null;
+		Object[] params= {userId};
+		try {
+			queryUserFund=runner.query(sql,params, new MapListHandler());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return queryUserFund;
+	}
+
+	
+	@Override
 	public List<MyAccount> queryfundAccount(int userId) {
 		Connection conn=DBUtil.getConnection();
 		PreparedStatement ps=null;
@@ -107,27 +122,51 @@ public class MyAccountDaoImpl implements MyAccountDao {
 		result=runner.update(sql,params);
 		return result;
 	}
-
-
 	@Override
-	public int queryCustomerCount(MyAccount myAccount) {
-		Statement st=null;
+	public int queryUserCount(MyAccount myAccount) {
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection conn = null;
-		String sql="SELECT COUNT(0) FROM T_MYACCOUNT ";
-         int count=0;
-		
+		String sql="SELECT COUNT(0) FROM T_MYACCOUNT WHERE USER_ID=?";
+		int count=0;
 		try {
-			conn=DBUtil.getConnection();
-			st=conn.createStatement();
-			rs=st.executeQuery(sql);
+			conn = DBUtil.getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, myAccount.getUserId());
+			rs=ps.executeQuery();
 			while(rs.next()) {
 				count=rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			DBUtil.closeConn(conn, st, rs);
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		
+		return count;
+	}
+
+
+	@Override
+	public int queryCustomerCount(MyAccount myAccount) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		String sql="SELECT COUNT(0) FROM T_MYACCOUNT WHERE CUSTOMER_ID=?";
+         int count=0;
+		
+		try {
+			conn = DBUtil.getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, myAccount.getCustomerId());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
 		}
 		
 		return count;
@@ -138,7 +177,7 @@ public class MyAccountDaoImpl implements MyAccountDao {
 	public List<Map<String, Object>> queryCustomerAccounts(MyAccount myAccount, int startIndex, int endIndex) {
 		String sql="SELECT * FROM  (\r\n" + 
 				" SELECT  A.MYACCOUNT_ID,A.HAPPEN_TIME,A.HAPPEN_THING,A.CUSTOMER_ID,A.CONSUMP_TYPE,A.CONSUMP_MONEY,A.USER_ID,B.USER_NAME,ROWNUM AS RN  FROM T_MYACCOUNT A\r\n " + 
-				" LEFT JOIN T_USER B ON A.USER_ID=B.USER_ID WHERE CUSTOMER_ID=? AND  ROWNUM <='"+endIndex+"')  C WHERE C.RN >= "+startIndex;
+				" LEFT JOIN T_USER B ON A.USER_ID=B.USER_ID WHERE CUSTOMER_ID=? AND  ROWNUM <='"+endIndex+"' ORDER BY A.HAPPEN_TIME DESC)  C WHERE C.RN >= "+startIndex;
 		List<Map<String, Object>> customerAccounts=null;
 		Object [] params= {myAccount.getCustomerId()};
 		try {
@@ -150,7 +189,22 @@ public class MyAccountDaoImpl implements MyAccountDao {
 		return customerAccounts;
 	}
 
-	
-	
+
+	@Override
+	public List<Map<String, Object>> queryUserFunds(MyAccount myAccount, int startIndex, int endIndex) {
+		String sql="SELECT * FROM (SELECT A.MYACCOUNT_ID, A.HAPPEN_TIME,A.HAPPEN_THING,A.CUSTOMER_ID,A.USER_ID,A.CONSUMP_TYPE,A.CONSUMP_MONEY,B.CUSTOMER_NAME,ROWNUM AS RN FROM T_MYACCOUNT A\r\n" + 
+				"LEFT JOIN T_CUSTOMER B ON A.CUSTOMER_ID=B.CUSTOMER_ID WHERE USER_ID=?  AND ROWNUM<='"+endIndex+"' ORDER BY A.HAPPEN_TIME DESC) C WHERE C.RN>="+startIndex;
+		List<Map<String, Object>> userFunds=null;
+		Object [] params= {myAccount.getUserId()};
+		try {
+			userFunds=runner.query(sql,params, new MapListHandler());
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		}
+		return userFunds;
+	}
+
+
+
 
 }
