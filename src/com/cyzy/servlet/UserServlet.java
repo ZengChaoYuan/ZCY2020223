@@ -59,10 +59,10 @@ public class UserServlet extends HttpServlet {
 		} else if (userAction != null && userAction.equals("addBefore")) {
 			addBefore(request, response);
 		}else if (userAction != null && userAction.equals("addAdminUser")) {
-			//¹ÜÀíÔ±·ÖÅäºóÌ¨ÓÃ»§
+			//ç®¡ç†å‘˜åˆ†é…åå°ç”¨æˆ·
 			addAdminUser(request, response);
 		} else if (userAction != null && userAction.equals("add")) {
-			//¹ÜÀíÔ±·ÖÅäºóÌ¨ÓÃ»§
+			//ç®¡ç†å‘˜åˆ†é…åå°ç”¨æˆ·
 			addUser(request, response);
 		} else if (userAction != null && userAction.equals("delete")) {
 			deleteUser(request, response);
@@ -73,16 +73,16 @@ public class UserServlet extends HttpServlet {
 		} else if (userAction != null && userAction.equals("detail")) {
 			userDetail(request, response);
 		}else if (userAction != null && userAction.equals("queryOrderCount")) {
-			//²é¿´Ô¤Ô¼Á¿
+			//æŸ¥çœ‹é¢„çº¦é‡
 			queryOrderCount(request, response);
 		}
 
 	}
 	
-	//²é¿´Ô¤Ô¼Á¿
+	//æŸ¥çœ‹é¢„çº¦é‡
 	private void queryOrderCount(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÖ¹ÂÒÂë
+		// é˜²æ­¢ä¹±ç 
 		response.setContentType("text/html");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
@@ -95,9 +95,9 @@ public class UserServlet extends HttpServlet {
 
 	private void queryUserList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÖ¹ÂÒÂë
+		// é˜²æ­¢ä¹±ç 
 		response.setContentType("text/html");
-		// µ±Ç°Ò³Âë
+		// å½“å‰é¡µç 
 		String currentPageNumStr = request.getParameter("currentPageNum");
 		int currentPageNum = (currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
 
@@ -110,26 +110,26 @@ public class UserServlet extends HttpServlet {
 
 	private void checkName(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÖ¹ÂÒÂë
+		// é˜²æ­¢ä¹±ç 
 		response.setContentType("text/html");
 		String userName = request.getParameter("userName");
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		User user = userService.checkUserName(userName);
 		JsonMessage msg = new JsonMessage();
-		msg.setMsg(user == null ? "´ËÓÃ»§Ãû¿ÉÒÔÊ¹ÓÃ" : "±»±ğÈË×¢²á¹ıÁË");
+		msg.setMsg(user == null ? "æ­¤ç”¨æˆ·åå¯ä»¥ä½¿ç”¨" : "è¢«åˆ«äººæ³¨å†Œè¿‡äº†");
 		String json = JSONObject.toJSONString(msg);
 		response.getWriter().println(json);
 	}
 
 	private void listLike(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÖ¹ÂÒÂë
+		// é˜²æ­¢ä¹±ç 
 		response.setContentType("text/html");
 
-		// µ±Ç°Ò³Âë
+		// å½“å‰é¡µç 
 		String currentPageNumStr = request.getParameter("currentPageNum");
 		int currentPageNum = (currentPageNumStr == null ? 1 : Integer.parseInt(currentPageNumStr));
-		// Ä£ºı²éÑ¯
+		// æ¨¡ç³ŠæŸ¥è¯¢
 		String userName = request.getParameter("userName");
 		String roleValue = request.getParameter("roleId");
 		int roleId = Integer.parseInt(roleValue == null ? "0" : roleValue);
@@ -140,15 +140,15 @@ public class UserServlet extends HttpServlet {
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		Page<User> page = userService.queryUserList(user, currentPageNum);
 		request.setAttribute("page", page);
-		// »ñÈ¡½ÇÉ«ÁĞ±í
+		// è·å–è§’è‰²åˆ—è¡¨
 		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_list.jsp").forward(request, response);
 	}
 
-	//ÆôÓÃ/½ûÓÃ
+	//å¯ç”¨/ç¦ç”¨
 	private void useStatus(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Í¨¹ıÓÃ»§IDÀ´µÃµ½ºóÌ¨ÓÃ»§µÄÍêÕûĞÅÏ¢
+		// é€šè¿‡ç”¨æˆ·IDæ¥å¾—åˆ°åå°ç”¨æˆ·çš„å®Œæ•´ä¿¡æ¯
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		User user = userService.getUserById(userId);
@@ -158,7 +158,7 @@ public class UserServlet extends HttpServlet {
 			if (result > 0) {
 				JsonMessage msg = new JsonMessage();
 				msg.setId(1);
-				msg.setMsg("½ûÓÃ³É¹¦!");
+				msg.setMsg("ç¦ç”¨æˆåŠŸ!");
 				String json = JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;
@@ -169,7 +169,7 @@ public class UserServlet extends HttpServlet {
 			if (result > 0) {
 				JsonMessage msg = new JsonMessage();
 				msg.setId(2);
-				msg.setMsg("ÆôÓÃ³É¹¦!");
+				msg.setMsg("å¯ç”¨æˆåŠŸ!");
 				String json = JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;
@@ -177,11 +177,11 @@ public class UserServlet extends HttpServlet {
 		}
 
 	}
-    //É¾³ı×´Ì¬
+    //åˆ é™¤çŠ¶æ€
 	private void deleteStatus(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-		// Í¨¹ıÓÃ»§IDÀ´µÃµ½ºóÌ¨ÓÃ»§µÄÍêÕûĞÅÏ¢
+		// é€šè¿‡ç”¨æˆ·IDæ¥å¾—åˆ°åå°ç”¨æˆ·çš„å®Œæ•´ä¿¡æ¯
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		User user = userService.getUserById(userId);
@@ -191,14 +191,14 @@ public class UserServlet extends HttpServlet {
         	if(result>0) {
         		JsonMessage msg=new JsonMessage();
 				msg.setId(1);
-				msg.setMsg("É¾³ı³É¹¦!");
+				msg.setMsg("åˆ é™¤æˆåŠŸ!");
 				String json=JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;
         	}else {
         		JsonMessage msg=new JsonMessage();
 				msg.setId(2);
-				msg.setMsg("É¾³ıÊ§°Ü!");
+				msg.setMsg("åˆ é™¤å¤±è´¥!");
 				String json=JSONObject.toJSONString(msg);
 				response.getWriter().println(json);
 				return;
@@ -206,22 +206,22 @@ public class UserServlet extends HttpServlet {
         }else {
         	JsonMessage msg=new JsonMessage();
 			msg.setId(3);
-			msg.setMsg("ÓÃ»§ÒÑ¾­±»É¾³ı,ÎŞĞëÖØ¸´²Ù×÷!");
+			msg.setMsg("ç”¨æˆ·å·²ç»è¢«åˆ é™¤,æ— é¡»é‡å¤æ“ä½œ!");
 			String json=JSONObject.toJSONString(msg);
 			response.getWriter().println(json);
 			return;
         }
 	}
-    //ÖØÖÃÃÜÂë
+    //é‡ç½®å¯†ç 
 	private void resetPassword(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
         response.setContentType("text/html");		
-		//²éÑ¯³ö²ÎÊı±íÖĞµÄÖØÖÃÃÜÂëĞÅÏ¢
+		//æŸ¥è¯¢å‡ºå‚æ•°è¡¨ä¸­çš„é‡ç½®å¯†ç ä¿¡æ¯
 		int paramId=1;
 		ParamService paramService=(ParamService)ServiceFactory.getServiceImpl(ParamService.class.getName());
 		Param param=paramService.getParamById(paramId);
 		String resetPassword=param.getResetPassword();
-		// Í¨¹ıÓÃ»§IDÀ´µÃµ½ºóÌ¨ÓÃ»§µÄÍêÕûĞÅÏ¢
+		// é€šè¿‡ç”¨æˆ·IDæ¥å¾—åˆ°åå°ç”¨æˆ·çš„å®Œæ•´ä¿¡æ¯
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserService userService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		User user = userService.getUserById(userId);
@@ -230,14 +230,14 @@ public class UserServlet extends HttpServlet {
 		if(result>0) {
 			JsonMessage msg=new JsonMessage();
 			msg.setId(1);
-			msg.setMsg("ÃÜÂëÖØÖÃ³É¹¦!");
+			msg.setMsg("å¯†ç é‡ç½®æˆåŠŸ!");
 			String json=JSONObject.toJSONString(msg);
 			response.getWriter().println(json);
 			return;
 		}else {
 			JsonMessage msg=new JsonMessage();
 			msg.setId(2);
-			msg.setMsg("ÃÜÂëÖØÖÃÊ§°Ü!");
+			msg.setMsg("å¯†ç é‡ç½®å¤±è´¥!");
 			String json=JSONObject.toJSONString(msg);
 			response.getWriter().println(json);
 			return;
@@ -246,7 +246,7 @@ public class UserServlet extends HttpServlet {
 	}
 	
 	
-	// µÃµ½¸öÈËÓÃ»§ĞÅÏ¢
+	// å¾—åˆ°ä¸ªäººç”¨æˆ·ä¿¡æ¯
 	private void byUserId(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
@@ -257,28 +257,28 @@ public class UserServlet extends HttpServlet {
 
 	private void userDetail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÖ¹ÂÒÂë
+		// é˜²æ­¢ä¹±ç 
 		response.setContentType("text/html");
 
 		byUserId(request, response);
 		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_detail.jsp").forward(request, response);
 	}
-    //¹ÜÀíÔ±·ÖÅäÓÃ»§Ç°
+    //ç®¡ç†å‘˜åˆ†é…ç”¨æˆ·å‰
 	private void addBefore(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//·ÀÂÒÂë
+		//é˜²ä¹±ç 
 		response.setContentType("text/html");
-		// »ñÈ¡½ÇÉ«ÁĞ±í
+		// è·å–è§’è‰²åˆ—è¡¨
 		getRoleList(request, response);
-		//»ñÈ¡ÁìÓòÁĞ±í
+		//è·å–é¢†åŸŸåˆ—è¡¨
 		AreaService areaService=(AreaService)ServiceFactory.getServiceImpl(AreaService.class.getName());
 		List<Area> areaList= areaService.queryArea();
 		request.setAttribute("areaList", areaList);
 		request.getRequestDispatcher("/admin/adminUser/user_add.jsp").forward(request, response);
 	}
 
-	// »ñÈ¡½ÇÉ«ÁĞ±í
+	// è·å–è§’è‰²åˆ—è¡¨
 	private void getRoleList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Role role = new Role();
@@ -289,23 +289,117 @@ public class UserServlet extends HttpServlet {
 
 	private void addAdminUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		// é˜²ä¹±ç 
+		response.setContentType("text/html");
+		//æ£€æµ‹ç”¨æˆ·åæ˜¯å¦é‡å¤
+		String userName = request.getParameter("userName");
+		UserService checkUserService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
+		User checkUser = checkUserService.checkUserName(userName);
+		if (checkUser != null) {
+			JsonMessage msg=new JsonMessage();
+			msg.setId(1);
+			msg.setMsg("æ­¤ç”¨æˆ·åå·²å­˜åœ¨,ä¸èƒ½ä½¿ç”¨è¯¥ç”¨æˆ·å!");
+			String json=JSONObject.toJSONString(msg);
+			response.getWriter().println(json);
+			return;
+		}else {
+			//æ–°å¢ä¸€ä¸ªuserId
+			UserService userService=(UserService)ServiceFactory.getServiceImpl(UserService.class.getName());
+			int userId=userService.createUserId();
+			String password = request.getParameter("password");
+			String school = request.getParameter("school");
+			String professor = request.getParameter("professor");
+			String realName = request.getParameter("realName");
+			String professBack = request.getParameter("professBack");
+			String intro = request.getParameter("intro");
+			int roleId=Integer.parseInt(request.getParameter("roleId"));	
+			int expense=Integer.parseInt(request.getParameter("expense"));
+			
+
+	
+			if(roleId==1) {
+				User user=new User(userId,userName, password, 1, 1, professor, roleId, 0, school, intro, 0, realName, professBack);
+				int userResult=0;
+				try {
+					userResult=userService.addUser(user);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(userResult>0) {
+					JsonMessage msg=new JsonMessage();
+					msg.setId(2);
+					msg.setMsg("æ–°å¢ç®¡ç†å‘˜æˆåŠŸ!");
+					String json=JSONObject.toJSONString(msg);
+					response.getWriter().println(json);
+					return;
+				}
+			}else if(roleId==2){
+				String areas=request.getParameter("areas");
+				String[] areaIds=areas.split(",");
+				int areaId[] = new int[areaIds.length];//[0]  2  [1]  12  [2]  15....
+				for (int i = 0; i < areaIds.length; i++) {
+					areaId[i] = Integer.parseInt(areaIds[i]);
+				}
+				int userAreaResult=0;
+				try {
+					userAreaResult=userService.addUserArea(userId, areaId);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				User user=new User(userId,userName, password, 1, 1, professor, roleId, 0, school, intro, expense, realName, professBack);
+				int	consulterResult=0;
+			try {
+				consulterResult=userService.addUser(user);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			if(consulterResult>0 && userAreaResult>0) {
+				JsonMessage msg=new JsonMessage();
+				msg.setId(3);
+				msg.setMsg("æ–°å¢å’¨è¯¢å¸ˆæˆåŠŸ!");
+				String json=JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
+			}
+			
+		}
+			
+			//
+//			User user=new User();
+//			user.setUserName(userName);
+//			user.setPassword(password);
+//			user.setSchool(school);
+//			user.setProfessor(professor);
+//			user.setRealName(realName);
+//			user.setProfessBack(professBack);
+//			user.setIntro(intro);
+//			user.setRoleId(roleId);
+//			if(roleId==1) {
+//				user.setPreExpense(0);
+//			}else {
+//				user.setPreExpense(expense);
+//			}
+			
+			
+			
+		}
 	}
 
 
 	private void addUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// ·ÀÂÒÂë
+		// é˜²ä¹±ç 
 		response.setContentType("text/html");
 
-		// Ôö¼ÓÓÃ»§
+		// å¢åŠ ç”¨æˆ·
 		String userName = request.getParameter("userName");
 		UserService checkUserService = (UserService) ServiceFactory.getServiceImpl(UserService.class.getName());
 		User checkUser = checkUserService.checkUserName(userName);
 		if (checkUser != null) {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("window.alert('" + (checkUser == null ? "´ËÓÃ»§ÃûÒÑ´æÔÚ" : "´ËÓÃ»§Ãû¿ÉÓÃ") + "');");
+			out.println("window.alert('" + (checkUser == null ? "æ­¤ç”¨æˆ·åå·²å­˜åœ¨" : "æ­¤ç”¨æˆ·åå¯ç”¨") + "');");
 			out.println("</script>");
 			queryUserList(request, response);
 
@@ -329,14 +423,14 @@ public class UserServlet extends HttpServlet {
 			}
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("window.alert('" + (result == 0 ? "Ìí¼ÓÊ§°Ü" : "Ìí¼Ó³É¹¦") + "');");
+			out.println("window.alert('" + (result == 0 ? "æ·»åŠ å¤±è´¥" : "æ·»åŠ æˆåŠŸ") + "');");
 			out.println("</script>");
 			queryUserList(request, response);
 		}
 
 	}
 
-	// Ö´ĞĞĞŞ¸Ä²Ù×÷Ç°
+	// æ‰§è¡Œä¿®æ”¹æ“ä½œå‰
 	private void updateBefore(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");

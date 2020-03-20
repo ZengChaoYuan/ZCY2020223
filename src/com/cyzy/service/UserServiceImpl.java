@@ -117,5 +117,17 @@ public class UserServiceImpl implements UserService {
 		return userDao.addOrderCount(preOrderCount);
 	}
 
+	@Override
+	public int createUserId() {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.createUserId();
+	}
+
+	@Override
+	public int addUserArea(int userId, int[] areaIds) throws Exception {
+		UserDao userDao=(UserDao)DaoFactory.getDaoImpl(UserDao.class.getName());
+		return userDao.addUserArea(userId, areaIds);
+	}
+
 
 }

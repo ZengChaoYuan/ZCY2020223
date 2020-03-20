@@ -46,8 +46,10 @@ public interface UserDao {//后台用户表
 	// 更新表中的数据
 	public int updateUser(User user);
 
-	//没用上
+	//用户ID
 	public int createUserId();
+	//新增角色为咨询师所需
+	public int addUserArea(int userId,int [] areaIds) throws Exception;
 	
 	// 按咨询师用户查询日志:开始时间和结束时间
 	public List<OrderCount> queryAllOrderCountByUser(String startTime, String endTime);

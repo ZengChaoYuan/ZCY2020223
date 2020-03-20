@@ -46,12 +46,10 @@ text-indent: 30px;
 <tr>
 <td colspan="4" id="special">
 请选择领域:&nbsp;
-<select name="areaId" id="areaId">
- <option value="0">请选择</option>
 <c:forEach items="${requestScope.areaList }" var="area">
-<option value="${area.areaId }">${area.areaName}</option>
+<input type="checkbox" name="areas" id="areas" value="${area.areaId }">${area.areaName}
 </c:forEach>
- </select> &emsp;请选择咨询费用:&nbsp;
+ &emsp;请选择咨询费用:&nbsp;
  <select name="expense" id="expense">
  <option value="0">请选择</option>
  <option value="200">200</option>
@@ -63,7 +61,7 @@ text-indent: 30px;
 </tr>
 <tr>
 <td colspan="4">
-<a href="#">新增</a>&emsp;<a href="${pageContext.request.contextPath}/UserServlet?userAction=list">返回</a>
+<a href="javascript:void(0)" onclick="add()">新增</a>&emsp;<a href="${pageContext.request.contextPath}/UserServlet?userAction=list">返回</a>
 </td>
 </tr>
 
@@ -74,6 +72,56 @@ text-indent: 30px;
 </body>
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+function add(){
+	if($("#userName").val()==""){
+		alert("用户名不得为空！");
+	}else if($("#password").val()==""){
+		alert("密码不得为空！");
+	}else if($("#school").val()==""){
+		alert("毕业院校不得为空！");
+	}else if($("#professor").val()==""){
+		alert("职称不得为空！");
+	}else if($("#realName").val()==""){
+		alert("真实姓名不得为空！");
+	}else if($("#professBack").val()==""){
+		alert("专业背景不得为空！");
+	}else if($("#intro").val()==""){
+		alert("简介不得为空！");
+	}else if($("#roleId").val()==0){
+		alert("请选择角色！");
+	}else{
+		var areas="";
+		$("input:checkbox:checked").each(function(){
+			areas+=this.value+",";
+		})
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/UserServlet?userAction=addAdminUser",
+			type:"post",
+			data:{"userName":$("#userName").val(),"password":$("#password").val(),
+				"school":$("#school").val(),"professor":$("#professor").val(),
+				"realName":$("#realName").val(),"professBack":$("#professBack").val(),
+				"intro":$("#intro").val(),"roleId":$("#roleId").val(),
+				"expense":$("#expense").val(),"areas":areas},
+			async:true,
+			dataType:"JSON",
+			success:function (data){
+				console.log(data);
+				if(data.id==1){
+	               window.alert(data.msg);     
+			     }else if(data.id==2||data.id==3){
+			    	 window.alert(data.msg);
+			    	 window.location.href="${pageContext.request.contextPath}/UserServlet?userAction=list";
+			     }
+			},	
+			error:function(data){
+				alert("出错了!!!");
+			}
+		})
+		
+	}
+	
+}
 $(document).ready(function(){
 	$("#special").hide();
 	//显示和隐藏

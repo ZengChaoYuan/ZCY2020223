@@ -292,8 +292,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public int addUser( User user) throws Exception {
 		int result=0;
-		String sql="INSERT INTO T_USER VALUES(SEQ_T_USER.NEXTVAL,?,?,1,1,?,?,0,?,?,?,?,?)";
-		Object[] params= {user.getUserName(),user.getPassword(),user.getProfessor(),user.getRoleId(),
+		String sql="INSERT INTO T_USER VALUES(?,?,?,1,1,?,?,0,?,?,?,?,?)";
+		Object[] params= {user.getUserId(),user.getUserName(),user.getPassword(),user.getProfessor(),user.getRoleId(),
 				user.getSchool(),user.getIntro(),user.getPreExpense(),user.getRealName(),user.getProfessBack()};
 		result=runner.update(sql,params);
 		return result;
@@ -344,8 +344,23 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public int createUserId() {
-
-		return 0;
+		Connection conn =DBUtil.getConnection();
+		PreparedStatement ps = null;	
+		ResultSet rs=null;
+		String sql="SELECT SEQ_T_USER.NEXTVAL AS USER_ID FROM DUAL";
+		int userId=0;
+		try {
+			ps= conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				userId=rs.getInt("USER_ID");
+			}
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		}finally {
+			DBUtil.closeConn(conn, ps, rs);
+		}
+		return userId;
 	}
 
 	@Override
@@ -411,6 +426,20 @@ public class UserDaoImpl implements UserDao {
 		Object []params= {preOrderCount.getUserName()};
 		result=runner.update(sql,params);
 		return result;
+	}
+
+	@Override
+	public int addUserArea(int userId,int [] areaIds) throws Exception {
+		//增加用户领域中间表
+				String sql="INSERT INTO T_USER_AREA(USER_ID,AREA_ID) VALUES(?,?)";
+				Object[][]params=new Object[areaIds.length][];
+				for(int i=0;i<areaIds.length;i++) {
+					params[i]=new Object[2];
+					params[i][0]=userId;
+					params[i][1]=Integer.valueOf(areaIds[i]);
+				}
+				return runner.batch(JDBCUtil.getConnection(), sql, params).length;
+		
 	}
 
 }

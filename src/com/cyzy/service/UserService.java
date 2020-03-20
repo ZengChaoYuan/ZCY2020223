@@ -8,6 +8,11 @@ import com.cyzy.bean.User;
 import com.cyzy.util.Page;
 
 public interface UserService {
+	//用户ID
+	public int createUserId();
+	//新增角色为咨询师所需
+	public int addUserArea(int userId,int [] areaIds) throws Exception;
+	
 	//管理员分配后台用户
 	public int addUser(User user) throws Exception;
 	

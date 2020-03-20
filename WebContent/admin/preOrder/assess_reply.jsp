@@ -69,7 +69,10 @@
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 function submit(obj){
-	alert(obj);
+	if($("#reply").val()==""){
+		alert("请对该用户进行诊断答复");
+		return;
+	}
 	$.ajax({
 		url:"${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessReply",
 		type:"post",
