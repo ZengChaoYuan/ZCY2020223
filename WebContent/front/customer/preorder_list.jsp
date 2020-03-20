@@ -44,7 +44,7 @@
 					<td>
 					<c:if test="${myPreOrderList.ORDER_STATUS!=6}">
 					<c:if test="${myPreOrderList.ORDER_STATUS==4}">
-					  <a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessConsulter&userId=${myPreOrderList.USER_ID}">评价</a>
+					  <a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessConsulterBefore&preOrderId=${myPreOrderList.PREORDER_ID}">评价</a>
 				     </c:if>
 				     &emsp;
 					<a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=preOrderDetail&preOrderId=${myPreOrderList.PREORDER_ID}">查看详情</a>&emsp;

@@ -30,10 +30,10 @@
   </tr>
   <tr>
   <tr>
-  <td class="left" colspan="4">咨询师姓名:&nbsp;${requestScope.userInfo.USER_NAME }</td>
+  <td class="left" colspan="4">咨询师姓名:&nbsp;${requestScope.userInfo.USER_NAME}</td>
   </tr>
    <tr>
-  <td class="left" colspan="4">${requestScope.userInfo.SCHOOL }   ${requestScope.userInfo.PROFESSOR }</td>
+  <td class="left" colspan="4">${requestScope.userInfo.SCHOOL}   ${requestScope.userInfo.PROFESSOR}</td>
   </tr>
    <tr>
   <td class="left" colspan="4">擅长领域:
@@ -43,7 +43,10 @@
   </td>
   </tr>
    <tr>
-  <td class="left" colspan="4">专业背景:</td>
+  <td class="left" colspan="4">
+      专业背景:&nbsp;
+  ${requestScope.userInfo.PROFESS_BACK}
+  </td>
   </tr>
   <tr>
   <td class="left" colspan="4">简介:</td>
@@ -60,13 +63,12 @@
   </tr>
    <tr>
   <td class="left" colspan="4">
-    <textarea></textarea>
+    <textarea name="assess" id="assess"></textarea>
   </td>
   </tr>
   <tr>
   <td colspan="4">
-        <!-- <a href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=myPreOrderList">提交</a> -->
-  <a href="#">提交</a>
+  <a href="javascript:void(0)" onclick="submit(${requestScope.preOrderDetail.PREORDER_ID })">提交</a>
   </td>
   </tr>
 </table>
@@ -75,4 +77,30 @@
 </div>
 
 </body>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+function submit(obj){
+	alert(obj);
+	$.ajax({
+		url:"${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessConsulter",
+		type:"post",
+		data:{"preOrderId":obj,"assess":$("#assess").val()},
+		async:true,
+		dataType:"JSON",
+		success:function (data){
+			console.log(data);
+			if(data.id==1){
+               window.alert(data.msg);
+               window.location.href="${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=myPreOrderList";
+		     }else if(data.id==2){
+		    	 window.alert(data.msg);
+		     }
+		},	
+		error:function(data){
+			alert("出错了!!!");
+		}
+	})
+}
+
+</script>
 </html>

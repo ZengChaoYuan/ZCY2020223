@@ -5,6 +5,9 @@ import java.util.Map;
 import com.cyzy.bean.PreOrder;
 
 public interface PreOrderDao {
+	//客户评价咨询师
+	public int assessConsulter(PreOrder preOrder);
+	
 	//咨询师诊断答复，修改预约表
 	public int assessReply(PreOrder preOrder);
 	

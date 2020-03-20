@@ -119,6 +119,12 @@ public class PreOrderServiceImpl implements PreOrderService {
 		return preOrderDao.assessReply(preOrder);
 	}
 
+	@Override
+	public int assessConsulter(PreOrder preOrder) {
+		PreOrderDao preOrderDao=(PreOrderDao)DaoFactory.getDaoImpl(PreOrderDao.class.getName());
+		return preOrderDao.assessConsulter(preOrder);
+	}
+
 	
 
 	

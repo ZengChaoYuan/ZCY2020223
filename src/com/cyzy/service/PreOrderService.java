@@ -7,6 +7,9 @@ import com.cyzy.bean.PreOrder;
 import com.cyzy.util.Page;
 
 public interface PreOrderService {
+	  //客户评价咨询师
+	  public int assessConsulter(PreOrder preOrder);
+	
 	  //咨询师诊断答复，修改预约表
 	  public int assessReply(PreOrder preOrder);
 	

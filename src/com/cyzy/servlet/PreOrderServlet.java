@@ -85,8 +85,11 @@ public class PreOrderServlet extends HttpServlet {
 		} else if (preOrderAction != null && preOrderAction.equals("queryUserInfo")) {
 			// 查看咨询师档案信息
 			queryUserInfo(request, response);
+		} else if (preOrderAction != null && preOrderAction.equals("assessConsulterBefore")) {
+			// 评价咨询师前
+			assessConsulterBefore(request, response);
 		} else if (preOrderAction != null && preOrderAction.equals("assessConsulter")) {
-			// 咨询师评价
+			// 评价咨询师
 			assessConsulter(request, response);
 		} else if (preOrderAction != null && preOrderAction.equals("queryAreaBeforePre")) {
 			// 我要预约中的我要预约,查询出领域
@@ -369,19 +372,50 @@ public class PreOrderServlet extends HttpServlet {
 		request.getRequestDispatcher("/front/customer/want_preorder.jsp").forward(request, response);
 	}
 
+	private void assessConsulterBefore(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//int userId = Integer.parseInt(request.getParameter("userId"));
+		response.setContentType("text/html");
+		int preorderId = Integer.parseInt(request.getParameter("preOrderId"));
+		PreOrderService preOrderService = (PreOrderService) ServiceFactory
+				.getServiceImpl(PreOrderService.class.getName());
+		PreOrder preOrder = preOrderService.queryPreOrderById(preorderId);
+		int userId = preOrder.getUserId();
+		List<Map<String, Object>> areaList = preOrderService.queryAreaListByUserId(userId);
+		Map<String, Object> userInfo = preOrderService.queryUserInfo(userId);
+		Map<String, Object> preOrderDetail = preOrderService.queryMyPreOrderDetail(preorderId);
+		request.setAttribute("areaList", areaList);
+		request.setAttribute("userInfo", userInfo);
+		request.setAttribute("preOrderDetail", preOrderDetail);
+		request.getRequestDispatcher("/front/customer/assess_consulter.jsp").forward(request, response);
+	}
+	
+	//评价咨询师
 	private void assessConsulter(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		int preOrderId = Integer.parseInt(request.getParameter("preOrderId"));
+		String assess=request.getParameter("assess");
 		PreOrderService preOrderService = (PreOrderService) ServiceFactory
 				.getServiceImpl(PreOrderService.class.getName());
-		List<Map<String, Object>> areaList = preOrderService.queryAreaListByUserId(userId);
-		Map<String, Object> userInfo = preOrderService.queryUserInfo(userId);
-		request.setAttribute("areaList", areaList);
-		request.setAttribute("userInfo", userInfo);
-		request.getRequestDispatcher("/front/customer/assess_consulter.jsp").forward(request, response);
+		PreOrder preOrder=new PreOrder();
+		preOrder.setPreorderId(preOrderId);
+		preOrder.setEvaluateContent(assess);
+		int result=preOrderService.assessConsulter(preOrder);
+		if(result>0) {
+			JsonMessage msg = new JsonMessage();
+			msg.setId(1);
+			msg.setMsg("已完成该咨询师的评价");
+			String json = JSONObject.toJSONString(msg);
+			response.getWriter().println(json);
+		}else {
+			JsonMessage msg = new JsonMessage();
+			msg.setId(2);
+			msg.setMsg("评价咨询师失败,请联系管理员！！");
+			String json = JSONObject.toJSONString(msg);
+			response.getWriter().println(json);
+		}
 	}
-
 	// 查看咨询师档案信息
 	private void queryUserInfo(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -449,7 +483,7 @@ public class PreOrderServlet extends HttpServlet {
 		request.setAttribute("preOrderDetail", preOrderDetail);
 		request.getRequestDispatcher("/admin/preOrder/assess_reply.jsp").forward(request, response);
 	}
-	
+	//诊断答复
 	private void assessReply(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");

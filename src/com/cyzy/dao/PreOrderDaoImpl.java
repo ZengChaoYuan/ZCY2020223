@@ -42,6 +42,21 @@ public class PreOrderDaoImpl implements PreOrderDao {
 		
 		return result;
 	}
+	
+	//¿Í»§ÆÀ¼Û×ÉÑ¯Ê¦
+	@Override
+	public int assessConsulter(PreOrder preOrder) {
+		int result=0;
+		String sql="UPDATE T_PREORDER SET ORDER_STATUS=5, EVALUATE_CONTENT=?, ASSESS_TIME=SYSDATE WHERE PREORDER_ID=?";
+		Object [] params= {preOrder.getEvaluateContent(),preOrder.getPreorderId()};
+		try {
+			result=runner.update(sql, params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//×ÉÑ¯Ê¦Õï¶Ï´ð¸´
 	@Override
 	public int assessReply(PreOrder preOrder) {
