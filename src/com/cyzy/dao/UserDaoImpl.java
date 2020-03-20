@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
 
-import com.cyzy.bean.LogInf;
 import com.cyzy.bean.OrderCount;
 import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
@@ -439,7 +438,6 @@ public class UserDaoImpl implements UserDao {
 					params[i][1]=Integer.valueOf(areaIds[i]);
 				}
 				return runner.batch(JDBCUtil.getConnection(), sql, params).length;
-		
 	}
 
 }
