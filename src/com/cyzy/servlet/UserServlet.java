@@ -58,6 +58,9 @@ public class UserServlet extends HttpServlet {
 			checkName(request, response);
 		} else if (userAction != null && userAction.equals("addBefore")) {
 			addBefore(request, response);
+		}else if (userAction != null && userAction.equals("addAdminUser")) {
+			//管理员分配后台用户
+			addAdminUser(request, response);
 		} else if (userAction != null && userAction.equals("add")) {
 			//管理员分配后台用户
 			addUser(request, response);
@@ -283,6 +286,12 @@ public class UserServlet extends HttpServlet {
 		List<Role> roleList = roleService.queryRole(role);
 		request.setAttribute("roleList", roleList);
 	}
+
+	private void addAdminUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+	}
+
 
 	private void addUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
