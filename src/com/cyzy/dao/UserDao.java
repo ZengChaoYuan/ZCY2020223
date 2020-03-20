@@ -34,6 +34,7 @@ public interface UserDao {//后台用户表
 	//初始化客户密码
 	public int resetPassword(User user);
 
+	//管理员分配后台用户
 	public int addUser(User user) throws Exception;
 	
 	// 查询, 查询有多少用户已经注册

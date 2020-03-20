@@ -27,7 +27,7 @@
 		  <td>
 		  
           </td>
-          <td><a href="javascript:void(0);" target="adminMainContent">新增 </a></td>
+          <td><a href="${pageContext.request.contextPath}/UserServlet?userAction=addBefore" target="adminMainContent">新增 </a></td>
 		  </tr>
 		  <tr><td colspan="5"><input type="submit" class="submit" value="提交"></td></tr>
 		</table>		

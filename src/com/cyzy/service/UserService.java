@@ -2,14 +2,15 @@ package com.cyzy.service;
 
 import java.util.List;
 import java.util.Map;
-
-import com.cyzy.bean.LogInf;
 import com.cyzy.bean.OrderCount;
 import com.cyzy.bean.PreOrderCount;
 import com.cyzy.bean.User;
 import com.cyzy.util.Page;
 
 public interface UserService {
+	//管理员分配后台用户
+	public int addUser(User user) throws Exception;
+	
 	//修改咨询师余额
 	public int updateBalance(User user);
 	
@@ -37,9 +38,6 @@ public interface UserService {
 
 	// 查询
 	public List<User> queryUsers(User user);
-
-	// 增加
-	public int addUser(User user) throws Exception;
 
 	// 删除
 	public int deleteUser(int userId);

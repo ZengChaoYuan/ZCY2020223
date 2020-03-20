@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cyzy.bean.Area;
 import com.cyzy.bean.JsonMessage;
 import com.cyzy.bean.OrderCount;
 import com.cyzy.bean.Param;
 import com.cyzy.bean.Role;
 import com.cyzy.bean.User;
+import com.cyzy.service.AreaService;
 import com.cyzy.service.ParamService;
 import com.cyzy.service.RoleService;
 import com.cyzy.service.UserService;
@@ -57,6 +59,7 @@ public class UserServlet extends HttpServlet {
 		} else if (userAction != null && userAction.equals("addBefore")) {
 			addBefore(request, response);
 		} else if (userAction != null && userAction.equals("add")) {
+			//管理员分配后台用户
 			addUser(request, response);
 		} else if (userAction != null && userAction.equals("delete")) {
 			deleteUser(request, response);
@@ -258,13 +261,18 @@ public class UserServlet extends HttpServlet {
 		getRoleList(request, response);
 		request.getRequestDispatcher("/user/user_detail.jsp").forward(request, response);
 	}
-
+    //管理员分配用户前
 	private void addBefore(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 防乱码
+		//防乱码
 		response.setContentType("text/html");
+		// 获取角色列表
 		getRoleList(request, response);
-		request.getRequestDispatcher("/user/user_add.jsp").forward(request, response);
+		//获取领域列表
+		AreaService areaService=(AreaService)ServiceFactory.getServiceImpl(AreaService.class.getName());
+		List<Area> areaList= areaService.queryArea();
+		request.setAttribute("areaList", areaList);
+		request.getRequestDispatcher("/admin/adminUser/user_add.jsp").forward(request, response);
 	}
 
 	// 获取角色列表

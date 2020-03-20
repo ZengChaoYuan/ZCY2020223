@@ -292,31 +292,11 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public int addUser( User user) throws Exception {
 		int result=0;
-		String sql="INSERT INTO T_USER(USER_ID,USER_NAME,PASSWORD,REAL_NAME,SEX,BIRTHDAY,ROLE_ID) VALUES(SEQ_T_USER.NEXTVAL,?,?,?,?,TO_DATE(?,'yyyy-mm-dd'),?)";
-		//Object[] params= {user.getUserName(),user.getPassword(),user.getRealName(),user.getSex(),user.getBirthday(),user.getRoleId()};
-		//result=runner.update(sql,params);
+		String sql="INSERT INTO T_USER VALUES(SEQ_T_USER.NEXTVAL,?,?,1,1,?,?,0,?,?,?,?,?)";
+		Object[] params= {user.getUserName(),user.getPassword(),user.getProfessor(),user.getRoleId(),
+				user.getSchool(),user.getIntro(),user.getPreExpense(),user.getRealName(),user.getProfessBack()};
+		result=runner.update(sql,params);
 		return result;
-//    	Connection conn=DBUtil.getConnection();
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		String sql = "INSERT INTO T_USER(USER_ID,USER_NAME,PASSWORD,REAL_NAME,SEX,BIRTHDAY,ROLE_ID) VALUES(SEQ_T_USER.NEXTVAL,?,?,?,?,TO_DATE(?,'yyyy-mm-dd'),?)";
-//		try {
-//			ps = conn.prepareStatement(sql);
-//			ps.setString(1, user.getUserName());
-//			ps.setString(2, user.getPassword());
-//			ps.setString(3, user.getRealName());
-//			ps.setInt(4, user.getSex());
-//			ps.setString(5, user.getBirthday());
-//			ps.setInt(6, user.getRoleId());
-//			return ps.executeUpdate();
-//		} catch (SQLException e) {
-//
-//			e.printStackTrace();
-//		} finally {
-//			DBUtil.closeConn(conn, ps, rs);
-//		}
-//
-//		return 0;
 	}
 
 		
