@@ -85,7 +85,11 @@ margin-left: 60px;
 <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 function submit(obj){
-	alert(obj);
+	if($("#assess").val()==""){
+		alert("请输入对该咨询师的评价");
+		return;
+	}
+	
 	$.ajax({
 		url:"${pageContext.request.contextPath}/PreOrderServlet?preOrderAction=assessConsulter",
 		type:"post",
