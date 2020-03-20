@@ -61,6 +61,7 @@
   <td class="left" colspan="4">用户评价:</td>
   </tr>
    <c:forEach items="${requestScope.assessInfoList }" var="assessInfo">
+    <c:if test="${assessInfo.ORDER_STATUS!=6}">
   <tr>
   <td class="left" colspan="1">${assessInfo.CUSTOMER_NAME }</td>
   <td colspan="3">
@@ -82,7 +83,7 @@
   </c:if>
   </td>
   </tr>
-
+ </c:if>
   
   </c:forEach>
   <tr>
