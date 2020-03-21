@@ -41,7 +41,11 @@ public class LoginServlet extends HttpServlet {
 		if (loginAction != null && loginAction.equals("login")) {
 			login(request,response);
 		}else if (loginAction != null && loginAction.equals("loginOut")) {
+			//后台用户退出
 			loginOut(request,response);
+		}else if (loginAction != null && loginAction.equals("frontLoginOut")) {
+			//前台用户退出
+			frontLoginOut(request,response);
 		}
 	}
 	
@@ -97,9 +101,19 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session=request.getSession();
 		session.removeAttribute("loginUser");
-		response.sendRedirect("http://localhost:8080/JF190902/index.jsp");
+		response.sendRedirect(""+request.getContextPath()+"/index.jsp");
 	}
-
+	
+    private void frontLoginOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		
+		HttpSession session=request.getSession();
+		session.removeAttribute("loginCustomer");
+		response.sendRedirect(""+request.getContextPath()+"/front/login.jsp");
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
