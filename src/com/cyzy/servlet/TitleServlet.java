@@ -43,6 +43,7 @@ public class TitleServlet extends HttpServlet {
 		if (titleAction != null && titleAction.equals("list")) {
 			queryTitleList(request, response);
 		}else if(titleAction != null && titleAction.equals("countScope")) {
+			//提交,计算得分
 			countScope(request,response);
 		}else if(titleAction != null && titleAction.equals("answer")) {
 			answer(request,response);

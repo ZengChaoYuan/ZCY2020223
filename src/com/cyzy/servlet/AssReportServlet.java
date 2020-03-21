@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cyzy.bean.AssReport;
 import com.cyzy.bean.Customer;
+import com.cyzy.bean.JsonMessage;
 import com.cyzy.bean.Stand;
 import com.cyzy.service.AssReportService;
 import com.cyzy.service.StandService;
@@ -42,6 +44,9 @@ public class AssReportServlet extends HttpServlet {
 		if (assAction != null && assAction.equals("myReportList")) {
 			// 我的报告列表
 			myReportList(request, response);
+		}else if (assAction != null && assAction.equals("addAssReport")) {
+			// 生成评估报告
+			addAssReport(request, response);
 		} else if (assAction != null && assAction.equals("reportResult")) {
 			// 报告结果
 			reportResult(request, response);
@@ -49,8 +54,101 @@ public class AssReportServlet extends HttpServlet {
 			// 管理员查看所有客户的报告列表
 			userQueryReport(request, response);
 		} else if (assAction != null && assAction.equals("userQueryAss")) {
+			// 管理员查看各个用户的评测结果
 			userQueryAss(request, response);
 		}
+	}
+	
+	// 生成评估报告
+	private void addAssReport(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Customer loginCustomer = (Customer) request.getSession().getAttribute("loginCustomer");
+		int customerId = loginCustomer.getCustomerId();
+	    //获得总分
+		int assScore=Integer.parseInt(request.getParameter("assScore"));
+		//判断
+		AssReport assReport=new AssReport();
+		AssReportService assReportService = (AssReportService) ServiceFactory
+				.getServiceImpl(AssReportService.class.getName());
+		
+		if(assScore>=0 && assScore<=4) {
+			int standId=3;
+			assReport.setStandId(standId);
+			assReport.setAssScore(assScore);
+			assReport.setCustomerId(customerId);
+			int result=0;
+			try {
+				result=assReportService.addAssReport(assReport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(result>0) {
+				JsonMessage msg = new JsonMessage();
+				msg.setId(1);
+				msg.setMsg("您的评测结果已经生成了，快去看看吧!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
+			}
+		}else if(assScore>=5 && assScore<=8) {
+			int standId=1;
+			assReport.setStandId(standId);
+			assReport.setAssScore(assScore);
+			assReport.setCustomerId(customerId);
+			int result=0;
+			try {
+				result=assReportService.addAssReport(assReport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(result>0) {
+				JsonMessage msg = new JsonMessage();
+				msg.setId(2);
+				msg.setMsg("您的评测结果已经生成了，快去看看吧!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
+			}
+		}else if(assScore>=9 && assScore<=12) {
+			int standId=2;
+			assReport.setStandId(standId);
+			assReport.setAssScore(assScore);
+			assReport.setCustomerId(customerId);
+			int result=0;
+			try {
+				result=assReportService.addAssReport(assReport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(result>0) {
+				JsonMessage msg = new JsonMessage();
+				msg.setId(3);
+				msg.setMsg("您的评测结果已经生成了，快去看看吧!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
+			}
+		}else if(assScore>=13 && assScore<=50) {
+			int standId=4;
+			assReport.setStandId(standId);
+			assReport.setAssScore(assScore);
+			assReport.setCustomerId(customerId);
+			int result=0;
+			try {
+				result=assReportService.addAssReport(assReport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(result>0) {
+				JsonMessage msg = new JsonMessage();
+				msg.setId(4);
+				msg.setMsg("您的评测结果已经生成了，快去看看吧!");
+				String json = JSONObject.toJSONString(msg);
+				response.getWriter().println(json);
+				return;
+			}
+		}
+		
 	}
 
 	// 管理员查看各个用户的评测结果

@@ -7,6 +7,8 @@ import com.cyzy.bean.AssReport;
 import com.cyzy.util.Page;
 
 public interface AssReportService {
+	  //答题后自动生成的评估报告
+	  public int addAssReport(AssReport assReport) throws Exception;
 	  //客户（我的报告列表）
 	  public List<AssReport> querymyReport(int customerId);
 	  //客户查看自己的报告列表,分页

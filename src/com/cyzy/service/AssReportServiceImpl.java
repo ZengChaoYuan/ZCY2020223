@@ -48,4 +48,10 @@ public class AssReportServiceImpl implements AssReportService {
 		return page;
 	}
 
+	@Override
+	public int addAssReport(AssReport assReport) throws Exception {
+		AssReportDao assReportDao=(AssReportDao)DaoFactory.getDaoImpl(AssReportDao.class.getName());
+		return assReportDao.addAssReport(assReport);
+	}
+
 }

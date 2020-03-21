@@ -7,16 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
-
 import com.cyzy.bean.AssReport;
 import com.cyzy.util.DBUtil;
 import com.cyzy.util.JDBCUtil;
-
-
 public class AssReportDaoImpl implements AssReportDao {
 	private static QueryRunner runner=new QueryRunner(JDBCUtil.getDataSource());
 	
@@ -151,6 +147,15 @@ public class AssReportDaoImpl implements AssReportDao {
 			e.printStackTrace();
 		}
 		return allReports;
+	}
+
+	@Override
+	public int addAssReport(AssReport assReport) throws Exception {
+		int result=0;
+		String sql="INSERT INTO T_ASSREPORT(ASSREPORT_ID,ASS_TIME,STAND_ID,ASS_SCORE,CUSTOMER_ID) VALUES (SEQ_T_ASSREPORT.NEXTVAL,SYSDATE,?,?,?)";
+		Object[] params= {assReport.getStandId(),assReport.getAssScore(),assReport.getCustomerId()};
+		result=runner.update(sql,params);
+		return result;
 	}
 
 }
